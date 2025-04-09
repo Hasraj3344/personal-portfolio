@@ -1,3 +1,52 @@
+/* Custom Fonts
+@font-face {
+  font-family: Centra;
+  src: url('./assets/font/CentraNo2-Bold.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Centra;
+  src: url('./assets/font/CentraNo2-Medium.ttf');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Centra;
+  src: url('./assets/font/CentraNo2Book.ttf');
+  font-weight: 400;
+}
+*/
+
+
+/* Default CSS*/
+@import url('https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html{
+  scroll-behavior: smooth;
+  scroll-padding-top: 75px;
+}
+
+body{
+  font-weight: 400;
+  overflow-x: hidden;
+  position: relative;
+  background-color:#fff !important;
+  color: #fff !important;
+  font-family: 'Centra', sans-serif !important;
+}
+
+p, h2, h3, h4, h5, h6{
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+}
 .App {
   text-align: center;
 }
@@ -36,3 +85,124 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* ----------NAVBAR-----------*/
+nav.navbar{
+  padding: 18px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 9999;
+  background-color: #2c3358 !important;
+  transition: 0.32 ease-in-out;
+}
+
+
+.navbar-brand {
+  transition: transform 0.3s ease-in-out; /* Smooth transition */
+  float: left;
+}
+
+.navbar-brand h2 {
+  font-family: Helvetica; /* Change to your preferred font */
+  font-size: 1.5em; /* Adjust size */
+  font-weight: bold; /* Optional: Make it bold */
+  color: white; /* Ensure text color is visible */
+  transition: transform 0.3s ease-in-out; /* Smooth scaling effect */
+}
+
+.navbar-brand h2:hover {
+  transform: scale(1.1); /* Increase size on hover */
+}
+
+.navbar-brand:hover {
+  transform: scale(1.1); /* Increase size to 110% */
+}
+
+.nav-link {
+  color: white !important;
+  text-align: center;
+  transition: transform 0.3s ease-in-out; /* Smooth transition */
+}
+
+.nav-link:hover {
+  color: lightgray !important;
+  transform: scale(1.1); /* Increases size to 110% */
+}
+
+.btn-talk{
+  margin-left: 10px;
+  color: #121212;
+  text-decoration: none;
+  padding: 8px 35px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 2px solid #121212;
+  transition: transform 0.3s ease-in-out;
+
+}
+
+
+.btn-talk:hover{
+  color: white;
+  background-color: transparent;
+  border-color: white;
+}
+
+
+
+
+
+/*-----FOOTER--------*/
+
+.custom-footer {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  padding: 20px 40px;
+  background-color: #2c3358;
+  border-top: 1px solid #ddd;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center; /* Centers icons */
+  gap: 15px; /* Adds spacing between icons */
+  margin-bottom: 10px;
+}
+
+.social-icons a img {
+  width: 30px;
+  height: auto;
+}
+
+
+
+.vvd {
+  position: fixed; /* Keeps it in place */
+  bottom: 20px; /* Distance from the bottom */
+  right: 20px; /* Distance from the right */
+  padding: 10px 20px;
+  background-color: whitesmoke; /* Customize the color */
+  color: black;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.vvd:hover {
+  color: white;
+  background-color: transparent;
+  border-color: white;
+}
+
+
+
+
+
+
+

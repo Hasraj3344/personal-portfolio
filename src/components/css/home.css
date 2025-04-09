@@ -1,0 +1,63 @@
+.home-container {
+    position: relative;
+    height: 100vh; /* Full viewport height */
+    width: 100%;
+    background-image: url('../../assets/background.png'); /* Ensure correct path */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center; /* Keeps the image in bottom right */
+    background-repeat: no-repeat;
+    padding: 30px 100px;
+  }
+  
+  .section-content {
+    max-width: 800px;
+    color: #555;
+    text-align: left; /* Restricts content to the left half */
+  }
+  
+ .section-content h2{
+    font-size: 3em;
+ }
+
+ .section-content h2 span{
+    color: #2c3358;
+ }
+
+ .section-content h4 {
+    font-size: 2em;
+}
+.section-content p {
+    font-size: 1.25em;
+    padding: 10px 0 40px 0;
+    margin: 20px;
+    text-align: justify;
+}
+.btn-group a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 40px;
+    background: #2c3358;
+    border-radius: 10px;
+    border: 2px solid #2c3358;
+    font-weight: 500;
+    transition: .3s;
+}
+.btn-group a:hover:nth-child(1) {
+    color: #2c3358;
+    background: transparent;
+}
+.btn-group a:nth-child(2) {
+    color: #2c3358;
+    background: transparent;
+    margin-left: 30px;
+    padding: 10px 30px;
+}
+.btn-group a:hover:nth-child(2) {
+    color: #fff;
+    background: #2c3358;
+}
+
+
+  
