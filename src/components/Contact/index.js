@@ -132,8 +132,10 @@ const Contact = () => {
       .then(() => {
         console.log("Email sent, showing Snackbar...");
         setOpen(true);
+        alert("Email sent successfully!");
         form.current.reset();
       }, (error) => {
+        alert("Failed to send email. Please try again.");
         console.error("EmailJS Error:", error.text);
       });
   };

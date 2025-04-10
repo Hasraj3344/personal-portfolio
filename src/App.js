@@ -55,3 +55,10 @@ function App() {
 }
 
 export default App;
+
+
+/* ####when ever made changes run this to update git so vercel will redeploy automatically
+git add .
+git commit -m "Describe your changes"
+git push origin main
+*/
