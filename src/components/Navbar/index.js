@@ -172,6 +172,9 @@ const Navbar = () => {
             <NavLink onClick={() => setIsOpen(!isOpen)} href="#Education">
               Education
             </NavLink>
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#contact">
+              ContactMe
+            </NavLink>
             <GithubButton
               href={Bio.linkedin}
               target="_Blank"

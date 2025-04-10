@@ -129,12 +129,21 @@ const Contact = () => {
     console.log("Form submitted");
 
     emailjs.sendForm('service_iqjx776', 'template_qm528hj', form.current, 'vGyLAS9NpXZ5yd1_V')
+    .then(() => {
+      console.log("Email sent, showing Snackbar...");
+      setOpen(true);
+      alert("Email sent successfully!");
+      form.current.reset();
+    }, (error) => {
+      alert("Failed to send email. Please try again.");
+      console.error("EmailJS Error:", error.text);
+    });
     emailjs.sendForm('service_iqjx776', 'template_qm0q3e9', form.current, 'vGyLAS9NpXZ5yd1_V')
 
       .then(() => {
-        console.log("Email sent, showing Snackbar...");
+        console.log("Email received, showing Snackbar...");
         setOpen(true);
-        alert("Email sent successfully!");
+        alert("Email received successfully!");
         form.current.reset();
       }, (error) => {
         alert("Failed to send email. Please try again.");
