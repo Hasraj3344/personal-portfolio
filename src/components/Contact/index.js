@@ -139,16 +139,15 @@ const Contact = () => {
       console.error("EmailJS Error:", error.text);
     });
     emailjs.sendForm('service_iqjx776', 'template_qm0q3e9', form.current, 'vGyLAS9NpXZ5yd1_V')
-
-      .then(() => {
-        console.log("Email received, showing Snackbar...");
-        setOpen(true);
-        alert("Email received successfully!");
-        form.current.reset();
-      }, (error) => {
-        alert("Failed to send email. Please try again.");
-        console.error("EmailJS Error:", error.text);
-      });
+    .then(() => {
+      console.log("Email received, showing Snackbar...");
+      setOpen(true);
+      alert("Email received successfully!");
+      form.current.reset();
+    }, (error) => {
+      alert("Failed to send email. Please try again.");
+      console.error("EmailJS Error:", error.text);
+    });
   };
 
   // Debug: log Snackbar open status
