@@ -1,4 +1,3 @@
-
 import React from 'react'
 import styled from 'styled-components'
 import Timeline from '@mui/lab/Timeline';
@@ -72,7 +71,30 @@ const TimelineSection = styled.div`
     gap: 12px;
 `;
 
+const TimelineItemContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`;
 
+const TimelineItemContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+`;
+
+const TimelineItemDate = styled.span`
+    position: absolute;
+    font-size: 10px;
+    color: #854CE6;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+`;
 
 const index = () => {
     return (
@@ -84,19 +106,29 @@ const index = () => {
                 </Desc>
                 <TimelineSection>
                     <Timeline>
-                        {experiences.map((experience,index) => (
-                            <TimelineItem>
-                                <TimelineSeparator>
-                                    <TimelineDot variant="outlined" color="secondary" />
-                                    {index !== experiences.length - 1 && <TimelineConnector style={{ background: '#854CE6' }} />}
-                                </TimelineSeparator>
-                                <TimelineContent sx={{ py: '12px', px: 2 }}>
-                                    <ExperienceCard experience={experience}/>
-                                </TimelineContent>
-                            </TimelineItem>
+                        {experiences.map((experience, index) => (
+                            <TimelineItemContainer>
+                                <TimelineItem>
+                                    <TimelineSeparator>
+                                        <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
+                                            <TimelineDot variant="outlined" color="secondary" />
+                                            <TimelineItemDate>
+                                                {experience.startDate}
+                                            </TimelineItemDate>
+                                        </div>
+                                        {index !== experiences.length - 1 && (
+                                            <TimelineConnector style={{ background: '#854CE6' }} />
+                                        )}
+                                    </TimelineSeparator>
+                                    <TimelineContent sx={{ py: '15px', px: 2 }}>
+                                        <TimelineItemContent>
+                                            <ExperienceCard experience={experience} />
+                                        </TimelineItemContent>
+                                    </TimelineContent>
+                                </TimelineItem>
+                            </TimelineItemContainer>
                         ))}
                     </Timeline>
-
                 </TimelineSection>
             </Wrapper>
         </Container>

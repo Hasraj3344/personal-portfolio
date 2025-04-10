@@ -1,12 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import emailjs from '@emailjs/browser';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 const Container = styled.div`
   display: flex;
@@ -15,9 +10,11 @@ const Container = styled.div`
   position: relative;
   z-index: 1;
   align-items: center;
+  
   @media (max-width: 960px) {
     padding: 0px;
   }
+
 `;
 
 const Wrapper = styled.div`
@@ -66,9 +63,14 @@ const ContactForm = styled.form`
   background-color: ${({ theme }) => theme.card};
   padding: 32px;
   border-radius: 16px;
-  box-shadow: rgba(23, 92, 230, 0.15) 0px 4px 24px;
+  box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
   margin-top: 28px;
   gap: 12px;
+  transition: all 0.3s ease-in-out;
+  &:hover{
+  box-shadow: rgba(23, 92, 230, 0.15) 0px 4px 24px;
+        transform: translateY(-5px);
+    }
 `;
 
 const ContactTitle = styled.div`
@@ -118,43 +120,41 @@ const ContactButton = styled.input`
   color: ${({ theme }) => theme.text_primary};
   font-size: 18px;
   font-weight: 600;
+  &:hover{
+  border: 2px solid #fff,
+  background-color: transparent,
+  color: #fff,
+  transform: translateY(5px);
+  }
 `;
 
-const Contact = () => {
-  const [open, setOpen] = useState(false);
+const Contact = ({ setSnackbarOpen }) => {
   const form = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted");
 
     emailjs.sendForm('service_iqjx776', 'template_qm528hj', form.current, 'vGyLAS9NpXZ5yd1_V')
-    .then(() => {
-      console.log("Email sent, showing Snackbar...");
-      setOpen(true);
-      alert("Email sent successfully!");
-      form.current.reset();
-    }, (error) => {
-      alert("Failed to send email. Please try again.");
-      console.error("EmailJS Error:", error.text);
-    });
+      .then(() => {
+        setSnackbarOpen?.(true);  // trigger Snackbar from parent
+        alert("Email has been sent!")
+        form.current.reset();
+      }, (error) => {
+        alert("Failed to send email. Please try again.");
+        console.error("EmailJS Error:", error.text);
+      });
+
     emailjs.sendForm('service_iqjx776', 'template_qm0q3e9', form.current, 'vGyLAS9NpXZ5yd1_V')
-    .then(() => {
-      console.log("Email received, showing Snackbar...");
-      setOpen(true);
-      alert("Email received successfully!");
-      form.current.reset();
-    }, (error) => {
-      alert("Failed to send email. Please try again.");
-      console.error("EmailJS Error:", error.text);
-    });
+      .then(() => {
+        setSnackbarOpen?.(true);  // again trigger from parent
+        form.current.reset();
+      }, (error) => {
+        alert("Failed to send email. Please try again.");
+        console.error("EmailJS Error:", error.text);
+      });
   };
 
-  // Debug: log Snackbar open status
-  useEffect(() => {
-    console.log("Snackbar open state:", open);
-  }, [open]);
-
+ 
   return (
     <Container id='contact'>
       <Wrapper>
@@ -169,17 +169,7 @@ const Contact = () => {
           <ContactButton type="submit" value="Send" />
         </ContactForm>
 
-        <Snackbar
-          open={open}
-          autoHideDuration={6000}
-          onClose={() => setOpen(false)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          sx={{ zIndex: 2000 }} // ensures visibility
-        >
-          <Alert onClose={() => setOpen(false)} severity="success" sx={{ width: '100%', bgcolor: 'white', color: 'black' }}>
-            Email sent successfully!
-          </Alert>
-        </Snackbar>
+
       </Wrapper>
     </Container>
   );

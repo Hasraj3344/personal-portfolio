@@ -54,6 +54,7 @@ const SkillsContainer = styled.div`
   margin-top: 30px;
   gap: 30px;
   justify-content: center;
+  
 `
 
 const Skill = styled.div`
@@ -64,6 +65,12 @@ const Skill = styled.div`
   box-shadow: rgba(23, 92, 230, 0.15) 0px 4px 24px;
   border-radius: 16px;
   padding: 18px 36px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: rgba(133, 76, 230, 0.3) 0px 10px 40px;
+    border-color: #a374f8;
+  }
   @media (max-width: 768px) {
     max-width: 400px;
     padding: 10px 36px;
@@ -103,6 +110,12 @@ const SkillItem = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  &:hover {
+    transform: scale(1.18);
+    box-shadow: rgba(133, 76, 230, 0.3) 0px 10px 40px;
+    border-color: #a374f8;
+  }
   @media (max-width: 768px) {
     font-size: 14px;
     padding: 8px 12px;

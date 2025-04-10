@@ -94,10 +94,9 @@ export const HeroRightContainer = styled.div`
 
 export const Img = styled.img`
   position: relative;
-  width: 100%;
-  height: 100%;
-  max-width: 500px;
-  max-height: 700px;
+  width:500px; /* you can use % */
+  height: 500px;
+  object-fit: cover;
   border-radius: 20%;
   border: 2px solid ${({ theme }) => theme.primary};
 

@@ -7,11 +7,14 @@ const Document = styled.img`
     width: fit-content;
     background-color: #000;
     border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
     &:hover{
         cursor: pointer;
-        opacity: 0.8;
+        opacity: 1;
     }
 `
+
 
 const Description = styled.div`
     width: 100%;
@@ -37,7 +40,7 @@ const Card = styled.div`
     width: 650px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-    padding: 12px 16px;
+    
     justify-content: space-between;
     position: relative;
     overflow: hidden;
@@ -77,7 +80,7 @@ const Top = styled.div`
 
 const Image = styled.img`
     height: 50px;
-    background-color: #000;
+    background-color: #fff;
     border-radius: 10px;
     margin-top: 4px;
     @media only screen and (max-width: 768px){
@@ -112,7 +115,7 @@ const Company = styled.div`
 
 const Date = styled.div`
     font-size: 12px;
-    font-weight: 400;
+    font-weight: 700;
     color: ${({ theme }) => theme.text_secondary + 80};
     @media only screen and (max-width: 768px){
         font-size: 10px;
