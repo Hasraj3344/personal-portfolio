@@ -129,6 +129,8 @@ const Contact = () => {
     console.log("Form submitted");
 
     emailjs.sendForm('service_iqjx776', 'template_qm528hj', form.current, 'vGyLAS9NpXZ5yd1_V')
+    emailjs.sendForm('service_iqjx776', 'template_qm0q3e9', form.current, 'vGyLAS9NpXZ5yd1_V')
+
       .then(() => {
         console.log("Email sent, showing Snackbar...");
         setOpen(true);
