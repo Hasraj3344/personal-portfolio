@@ -112,7 +112,7 @@ const ContactButton = styled.input`
   width: 100%;
   text-decoration: none;
   text-align: center;
-  background: linear-gradient(225deg, hsla(271, 100%, 50%, 1) 0%, hsla(294, 100%, 50%, 1) 100%);
+background: linear-gradient(225deg, hsla(210, 100%, 56%, 1) 0%, hsla(222, 100%, 61%, 1) 100%);
   padding: 13px 16px;
   margin-top: 2px;
   border-radius: 12px;
@@ -137,7 +137,7 @@ const Contact = ({ setSnackbarOpen }) => {
     emailjs.sendForm('service_iqjx776', 'template_qm528hj', form.current, 'vGyLAS9NpXZ5yd1_V')
       .then(() => {
         setSnackbarOpen?.(true);  // trigger Snackbar from parent
-        alert("Email has been sent!")
+        
         form.current.reset();
       }, (error) => {
         alert("Failed to send email. Please try again.");

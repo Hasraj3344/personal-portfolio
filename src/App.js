@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import './App.css';
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from './utils/Themes';
@@ -15,6 +15,7 @@ import ProjectDetails from "./components/ProjectDetails";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import styled from "styled-components";
+import { Analytics } from "@vercel/analytics/react";
 
 const Body = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -26,14 +27,16 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 const Wrapper = styled.div`
-  background: linear-gradient(38.73deg, rgba(204, 0, 187, 0.15) 0%, rgba(201, 32, 184, 0) 50%), linear-gradient(141.27deg, rgba(0, 70, 209, 0) 50%, rgba(0, 70, 209, 0.15) 100%);
-  width: 100%;
-  clip-path: polygon(0 0, 100% 0, 100% 100%,30% 98%, 0 100%);
+  background: linear-gradient(38.73deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0) 50%), 
+            linear-gradient(141.27deg, rgba(29, 78, 216, 0) 50%, rgba(29, 78, 216, 0.15) 100%);
+width: 100%;
+clip-path: polygon(0 0, 100% 0, 100% 100%, 30% 98%, 0 100%);
+
 `
 function App() {
   const [darkMode] = useState(true);
   const [openModal, setOpenModal] = useState({ state: false, project: null });
-  const [snackbarOpen, setSnackbarOpen] = useState(true);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   console.log(openModal)
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
@@ -58,7 +61,7 @@ function App() {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             sx={{ zIndex: 9999, position: 'fixed !important' }}
           >
-            <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%', bgcolor: 'white', color: 'black' }}>
+            <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%', height: '60px' , bgcolor: 'green', color: 'white' }}>
               Email sent successfully!
             </Alert>
           </Snackbar>

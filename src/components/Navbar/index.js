@@ -5,7 +5,7 @@ import { Bio } from "../../data/constants";
 import { MenuRounded } from "@mui/icons-material";
 
 const Nav = styled.div`
-  background-color: ${({ theme }) => theme.bg};
+  background-color: #0F172A;
   height: 80px;
   display: flex;
   align-items: center;
@@ -35,7 +35,7 @@ const NavLogo = styled(LinkR)`
   align-items: center;
   width: 80%;
   padding: 0 6px;
-  font-weight: 500;
+  font-weight: 1000;
   font-size: 18px;
   text-decoration: none;
   color: inherit;
@@ -56,7 +56,7 @@ const NavItems = styled.ul`
 `;
 
 const NavLink = styled.a`
-  color: ${({ theme }) => theme.text_primary};
+  color: #60A5FA;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -89,7 +89,7 @@ const GithubButton = styled.a`
   padding: 10px 20px;
   font-size: 16px;
   font-weight: 500;
-  transition: all 0.6s ease-in-out;
+  transition: all 0.3s ease-in-out;
   text-decoration: none;
   &:hover {
     background: ${({ theme }) => theme.primary};
@@ -138,8 +138,8 @@ const Navbar = () => {
   return (
     <Nav>
       <NavbarContainer>
-        <NavLogo to="/">
-        <NavLink href="#about">Haswanth Rajesh</NavLink>
+        <NavLogo to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+        <NavLink href="/">Haswanth Rajesh</NavLink>
         </NavLogo>
 
         <MobileIcon onClick={() => setIsOpen(!isOpen)}>

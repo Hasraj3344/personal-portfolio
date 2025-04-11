@@ -4,8 +4,8 @@ const _default = {
     main: "Space Grotesk, sans-serif"
   },
   colors: {
-    primary: "#854CE6",
-    background1: "#222A35",
+    primary: "#60A5FA",
+    background1: "#0F172A",
     button: "#854CE6",
     background2: "#19212C",
     card_light: "#F8F9FA",  // ✅ Ensure this exists

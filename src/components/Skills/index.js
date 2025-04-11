@@ -61,15 +61,15 @@ const Skill = styled.div`
   width: 100%;
   max-width: 500px;
   background: ${({ theme }) => theme.card};
-  border: 0.1px solid #854CE6;
+  border: 0.1px solid #60A5FA;
   box-shadow: rgba(23, 92, 230, 0.15) 0px 4px 24px;
   border-radius: 16px;
   padding: 18px 36px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   &:hover {
     transform: translateY(-6px);
-    box-shadow: rgba(133, 76, 230, 0.3) 0px 10px 40px;
-    border-color: #a374f8;
+    box-shadow: rgba(59, 130, 246, 0.3) 0px 10px 40px; /* soft blue glow */
+    border-color: #60A5FA; /* sky blue */
   }
   @media (max-width: 768px) {
     max-width: 400px;
@@ -113,8 +113,9 @@ const SkillItem = styled.div`
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   &:hover {
     transform: scale(1.18);
-    box-shadow: rgba(133, 76, 230, 0.3) 0px 10px 40px;
-    border-color: #a374f8;
+    box-shadow: rgba(59, 130, 246, 0.3) 0px 10px 40px; /* soft blue glow */
+    border-color: #60A5FA; /* sky blue */
+
   }
   @media (max-width: 768px) {
     font-size: 14px;

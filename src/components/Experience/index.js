@@ -89,7 +89,7 @@ const TimelineItemContent = styled.div`
 const TimelineItemDate = styled.span`
     position: absolute;
     font-size: 10px;
-    color: #854CE6;
+    color: ${({ theme }) => theme.primary};
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -111,13 +111,13 @@ const index = () => {
                                 <TimelineItem>
                                     <TimelineSeparator>
                                         <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
-                                            <TimelineDot variant="outlined" color="secondary" />
+                                            <TimelineDot variant="outlined" color='primary' />
                                             <TimelineItemDate>
                                                 {experience.startDate}
                                             </TimelineItemDate>
                                         </div>
                                         {index !== experiences.length - 1 && (
-                                            <TimelineConnector style={{ background: '#854CE6' }} />
+                                            <TimelineConnector style={{ background: '#60A5FA' }} />
                                         )}
                                     </TimelineSeparator>
                                     <TimelineContent sx={{ py: '15px', px: 2 }}>

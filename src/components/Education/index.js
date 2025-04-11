@@ -89,12 +89,12 @@ const index = () => {
                     <Timeline>
                         {education.map((education,index) => (
                             <TimelineItem >
-                                <TimelineContent sx={{ py: '12px', px: 2 }}>
+                                <TimelineContent sx={{ py: '15px', px: 2 }}>
                                     <EducationCard education={education}/>
                                 </TimelineContent>
                                 <TimelineSeparator>
-                                    <TimelineDot variant="outlined" color="secondary" />
-                                    {index !== experiences.length  && <TimelineConnector style={{ background: '#854CE6' }} />}
+                                    <TimelineDot variant="outlined" color="primary" />
+                                    {index !== experiences.length -1  && <TimelineConnector style={{ background: '#60A5FA' }} />}
                                 </TimelineSeparator>
                             </TimelineItem>
                         ))}
