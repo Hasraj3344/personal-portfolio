@@ -19,7 +19,7 @@ export const Bio = {
     description:
     "I am a motivated and versatile individual who is always eager to take on new challenges. With a passion for learning, I am dedicated to delivering high-quality results. With a positive attitude and a growth mindset, I am ready to make a meaningful contribution and achieve great things.",
   resume:
-    "https://docs.google.com/document/d/1A9hUyNoKevxlx86Ys67lcHvmhveK153BtDXiygXv7k4/edit?usp=sharing",
+    "https://drive.google.com/file/d/1tGjhSTrlpiQdVkx_FOeqO92jyJ6hoo8t/view?usp=sharing",
     linkedin: "https://www.linkedin.com/in/haswanth-rajesh-neelam-627673198/",
     insta: "https://www.instagram.com/haswanth_rajesh/",
   };
