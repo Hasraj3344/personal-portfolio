@@ -171,7 +171,7 @@ export const Bio = {
       img: "https://rsrit.com/wp-content/uploads/2017/12/logo_dark.png",
       role: "Programmer Analyst",
       company: "Reliable Software Resources. INC",
-      date: "Aug 2024 - Present",
+      date: "July 2023 - Present",
       desc: "Designed and automated data pipelines to process large datasets efficiently. Developed and optimized SQL queries for performance improvement. Managed database schema and data warehouse infrastructure. Troubleshooted data pipeline issues and ensured high availability. Collaborated with analysts and engineers to develop analytics solutions.",
       skills: [
         "Azure Data Factory",
@@ -188,8 +188,8 @@ export const Bio = {
       img: "https://theblackbucks.com/blackbuckslogo1.png",
       role: "Web Developer",
       company: "BlackBucks Pvt. LTD",
-      date: "December 2021 - August 2022",
-      desc: "Working on the frontend and BackEnd of the web application using ReactJS, HTML, Css, Bootstrap and Nodejs.",
+      date: "May 2021 - August 2022",
+      desc: "Designed and developed responsive web pages using HTML, CSS, and JavaScript. Enhanced website performance and user experience by optimizing code. Created interactive prototypes and wireframes for new website features. Collaborated with cross-functional teams to launch web applications. Conducted quality assurance testing for smooth deployment. Conducted QA testing and contributed to launch cycles in coordination with design and engineering teams. Delivered functional prototypes and performance improvements through effective front-end coding practices.",
       skills: [
         "ReactJS",
         "Nodejs",
