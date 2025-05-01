@@ -7,6 +7,7 @@ import databricks from '../images/Azure/Databricks.svg';
 import Powerbi from '../images/Azure/powerbi.svg';
 import storageacc from '../images/Azure/storageacc.svg';
 import synapse from '../images/Azure/synapse.svg';
+import jobPortal from '../images/jobportal.png';
 export const Bio = {
     name: "Haswanth Rajesh Neelam",
     roles: [
@@ -288,6 +289,32 @@ export const Bio = {
   export const projects = [
     {
       id: 0,
+      title: "AI Driven Job Application Portal",
+      date: "Present",
+      description:
+        "A Job Finding App made with React Native, Axios. Users can search for any job coming from API and apply there. User registers and uploads a resume which in background runs a similarity "+
+        "check and displays jobs descending order of similarity score. Then openAi rewrites the resume and displays for editing and applies for the job by filling the application.",
+      image:jobPortal,
+      tags: [
+        "React Js",
+        "Node Js",
+        "Express Js",
+        "JavaScript",
+        "SQL",
+        "Supabase",
+        "OpenAI API",
+        "Tailwind CSS",
+        "HTML",
+        "Adzuna API",
+        "Axios",
+        "Vercel",
+        "Render",
+        "PostgreSQL",
+      ],
+      category: "web app",
+    },
+    {
+      id: 1,
       title: "Health Consultancy",
       date: "Jun 2024 - May 2024",
       description:
@@ -308,7 +335,7 @@ export const Bio = {
       category: "web app",
     },
     {
-      id: 1,
+      id: 2,
       title: "Course Compass",
       date: "Aug 2023 - Dec 2023",
       description:
@@ -320,7 +347,7 @@ export const Bio = {
       
     },
     {
-      id: 2,
+      id: 3,
       title: "University Recommender System",
       date: "Jan 2022 - May 2022",
       description:
@@ -341,7 +368,7 @@ export const Bio = {
       category: "web app",
     },
     {
-      id: 3,
+      id: 4,
       title: "The Invigilator",
       date: "Jan 2021 - May 2021",
       description:
@@ -353,7 +380,7 @@ export const Bio = {
       
     },
     {
-      id: 4,
+      id: 5,
       title: "Online Car Rental",
       date: "June 2020 - Dec 2020",
       description:
