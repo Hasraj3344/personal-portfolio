@@ -7,7 +7,7 @@ import databricks from '../images/Azure/Databricks.svg';
 import Powerbi from '../images/Azure/powerbi.svg';
 import storageacc from '../images/Azure/storageacc.svg';
 import synapse from '../images/Azure/synapse.svg';
-import jobPortal from '../images/jobportal.png';
+import jobPortal from '../images/job-portal.png';
 export const Bio = {
     name: "Haswanth Rajesh Neelam",
     roles: [
