@@ -8,6 +8,9 @@ import Powerbi from '../images/Azure/powerbi.svg';
 import storageacc from '../images/Azure/storageacc.svg';
 import synapse from '../images/Azure/synapse.svg';
 import jobPortal from '../images/jobportal.png';
+import datafactz from '../images/datafactz.png';
+import coursecompass from '../images/coursecompass.jpeg';
+import health from '../images/healthcare.jpeg';
 export const Bio = {
     name: "Haswanth Rajesh Neelam",
     roles: [
@@ -170,7 +173,7 @@ export const Bio = {
   export const experiences = [
     {
       id: 0,
-      img: "https://www.google.com/imgres?q=datafactz%20logo&imgurl=https%3A%2F%2Fcdn.theorg.com%2F627eec92-d5bc-426d-bc09-b5e921fe6de3_medium.jpg&imgrefurl=https%3A%2F%2Ftheorg.com%2Forg%2Fdatafactz&docid=ugQmPmv8IATWwM&tbnid=XqN0_PUQ3dUDmM&vet=12ahUKEwjggfCWxtWNAxXihIkEHSU_AycQM3oECEcQAA..i&w=400&h=400&hcb=2&itg=1&ved=2ahUKEwjggfCWxtWNAxXihIkEHSU_AycQM3oECEcQAA",
+      img: datafactz,
       role: "Azure Data Engineer",
       company: "DatafactZ LLC",
       date: "July 2023 - Present",
@@ -187,7 +190,7 @@ export const Bio = {
     },
     {
       id: 1,
-      img: "https://www.google.com/imgres?q=datafactz%20logo&imgurl=https%3A%2F%2Fcdn.theorg.com%2F627eec92-d5bc-426d-bc09-b5e921fe6de3_medium.jpg&imgrefurl=https%3A%2F%2Ftheorg.com%2Forg%2Fdatafactz&docid=ugQmPmv8IATWwM&tbnid=XqN0_PUQ3dUDmM&vet=12ahUKEwjggfCWxtWNAxXihIkEHSU_AycQM3oECEcQAA..i&w=400&h=400&hcb=2&itg=1&ved=2ahUKEwjggfCWxtWNAxXihIkEHSU_AycQM3oECEcQAA",
+      img: datafactz,
       role: "Data Architect",
       company: "DatafactZ LLC",
       date: "July 2021 - August 2022",
@@ -322,8 +325,8 @@ export const Bio = {
       date: "Jun 2024 - May 2024",
       description:
         "This is a web application where patients can book their appointments with a respective doctor, view all the prescriptions given to the patient, and view their billing data like receipts. Built an automated ETL pipeline for processing patient data. Designed a normalized relational schema for optimized storage",
-      image:
-        "https://www.google.com/imgres?q=health%20consultancy%20home%20page&imgurl=https%3A%2F%2Fi0.wp.com%2Fwww.accurate-medcon.com%2Fwp-content%2Fuploads%2F2015%2F07%2Fbanner-e1550703659818.jpg%3Ffit%3D1520%252C633&imgrefurl=http%3A%2F%2Fwww.accurate-medcon.com%2F&docid=KX98AJuf_EMzoM&tbnid=myiAloPRRA3dYM&vet=12ahUKEwiJ8-O8yNWNAxWtjIkEHTUzAnEQM3oECBwQAA..i&w=1520&h=633&hcb=2&ved=2ahUKEwiJ8-O8yNWNAxWtjIkEHTUzAnEQM3oECBwQAA",
+      image: health,
+
       tags: [
         "HTML",
         "CSS",
@@ -343,8 +346,7 @@ export const Bio = {
       date: "Aug 2023 - Dec 2023",
       description:
         "This is a web application where all the students can see their course updates such as assignments, exams, and they can even submit assignments and get graded by the faculty. They can monitor their course progress. We even added a statistical approach so they can understand easily. Developed a data warehouse to store and analyze student performance data. Created data visualization dashboards using Tableau. Implemented data transformation using Python.",
-      image:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fxbsoftware.com%2Fcase-studies-webdev%2Fstudent-data-tracking-app%2F&psig=AOvVaw07JT1pqUFcITg77Yq3os3C&ust=1749051068692000&source=images&cd=vfe&opi=89978449&ved=0CBYQjRxqFwoTCNjPro_J1Y0DFQAAAAAdAAAAABAE",
+      image: coursecompass,
       tags: ["React Js", "MySql Database", "Node Js", "HTML", "CSS","JavaScript","PHP","SQL","XAAMP","Laravel"],
       category: "web app",
       
