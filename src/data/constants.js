@@ -7,10 +7,11 @@ import databricks from '../images/Azure/Databricks.svg';
 import Powerbi from '../images/Azure/powerbi.svg';
 import storageacc from '../images/Azure/storageacc.svg';
 import synapse from '../images/Azure/synapse.svg';
-import jobPortal from '../images/job-portal.png';
+import jobPortal from '../images/jobportal.png';
 export const Bio = {
     name: "Haswanth Rajesh Neelam",
     roles: [
+      "Azure Data Engineer",
       "Data Engineer",
       "Data Analyst",
       "UI/UX Designer",
@@ -20,7 +21,7 @@ export const Bio = {
     description:
     "I am a motivated and versatile individual who is always eager to take on new challenges. With a passion for learning, I am dedicated to delivering high-quality results. With a positive attitude and a growth mindset, I am ready to make a meaningful contribution and achieve great things.",
   resume:
-    "https://drive.google.com/file/d/1tGjhSTrlpiQdVkx_FOeqO92jyJ6hoo8t/view?usp=sharing",
+    "https://docs.google.com/document/d/1hwCAJffQmDt64awhPSeMmhvaoS-SLRNmcj1Yv-MLw4U/edit?usp=sharing",
     linkedin: "https://www.linkedin.com/in/haswanth-rajesh-neelam-627673198/",
     insta: "https://www.instagram.com/haswanth_rajesh/",
   };
@@ -169,9 +170,9 @@ export const Bio = {
   export const experiences = [
     {
       id: 0,
-      img: "https://rsrit.com/wp-content/uploads/2017/12/logo_dark.png",
-      role: "Programmer Analyst",
-      company: "Reliable Software Resources. INC",
+      img: "https://www.google.com/imgres?q=datafactz%20logo&imgurl=https%3A%2F%2Fcdn.theorg.com%2F627eec92-d5bc-426d-bc09-b5e921fe6de3_medium.jpg&imgrefurl=https%3A%2F%2Ftheorg.com%2Forg%2Fdatafactz&docid=ugQmPmv8IATWwM&tbnid=XqN0_PUQ3dUDmM&vet=12ahUKEwjggfCWxtWNAxXihIkEHSU_AycQM3oECEcQAA..i&w=400&h=400&hcb=2&itg=1&ved=2ahUKEwjggfCWxtWNAxXihIkEHSU_AycQM3oECEcQAA",
+      role: "Azure Data Engineer",
+      company: "DatafactZ LLC",
       date: "July 2023 - Present",
       desc: "Designed and automated data pipelines to process large datasets efficiently. Developed and optimized SQL queries for performance improvement. Managed database schema and data warehouse infrastructure. Troubleshooted data pipeline issues and ensured high availability. Collaborated with analysts and engineers to develop analytics solutions.",
       skills: [
@@ -186,18 +187,20 @@ export const Bio = {
     },
     {
       id: 1,
-      img: "https://theblackbucks.com/blackbuckslogo1.png",
-      role: "Web Developer",
-      company: "BlackBucks Pvt. LTD",
-      date: "May 2021 - August 2022",
-      desc: "Designed and developed responsive web pages using HTML, CSS, and JavaScript. Enhanced website performance and user experience by optimizing code. Created interactive prototypes and wireframes for new website features. Collaborated with cross-functional teams to launch web applications. Conducted quality assurance testing for smooth deployment. Conducted QA testing and contributed to launch cycles in coordination with design and engineering teams. Delivered functional prototypes and performance improvements through effective front-end coding practices.",
+      img: "https://www.google.com/imgres?q=datafactz%20logo&imgurl=https%3A%2F%2Fcdn.theorg.com%2F627eec92-d5bc-426d-bc09-b5e921fe6de3_medium.jpg&imgrefurl=https%3A%2F%2Ftheorg.com%2Forg%2Fdatafactz&docid=ugQmPmv8IATWwM&tbnid=XqN0_PUQ3dUDmM&vet=12ahUKEwjggfCWxtWNAxXihIkEHSU_AycQM3oECEcQAA..i&w=400&h=400&hcb=2&itg=1&ved=2ahUKEwjggfCWxtWNAxXihIkEHSU_AycQM3oECEcQAA",
+      role: "Data Architect",
+      company: "DatafactZ LLC",
+      date: "July 2021 - August 2022",
+      desc: "Designed and implemented scalable data lakehouse solutions using Azure Databricks and Delta Lake. Developed medallion architecture pipelines (Bronze → Silver → Gold) for structured and semi-structured data. Managed data ingestion from diverse sources using Auto Loader, Kafka, and Azure Data Factory. Defined data models, schemas, and governance standards to support analytics and ML workflows. Applied performance tuning techniques (Z-Ordering, Bloom Filters, Partitioning, AQE) for optimal query efficiency.",
       skills: [
-        "ReactJS",
-        "Nodejs",
-        "Bootstrap",
-        "HTML",
-        "CSS",
-        "JavaScript",
+        "Azure Databricks",
+        "Delta Lake",
+        " Medallion Architecture",
+        "Azure Data Factory",
+        "Power BI",
+        "SQL",
+        "Python",
+        "Spark",
       ],
     },
     /*{
@@ -320,7 +323,7 @@ export const Bio = {
       description:
         "This is a web application where patients can book their appointments with a respective doctor, view all the prescriptions given to the patient, and view their billing data like receipts. Built an automated ETL pipeline for processing patient data. Designed a normalized relational schema for optimized storage",
       image:
-        "https://user-images.githubusercontent.com/64485885/255202416-e1f89b04-2788-45b0-abc2-9dec616669e2.png",
+        "https://www.google.com/imgres?q=health%20consultancy%20home%20page&imgurl=https%3A%2F%2Fi0.wp.com%2Fwww.accurate-medcon.com%2Fwp-content%2Fuploads%2F2015%2F07%2Fbanner-e1550703659818.jpg%3Ffit%3D1520%252C633&imgrefurl=http%3A%2F%2Fwww.accurate-medcon.com%2F&docid=KX98AJuf_EMzoM&tbnid=myiAloPRRA3dYM&vet=12ahUKEwiJ8-O8yNWNAxWtjIkEHTUzAnEQM3oECBwQAA..i&w=1520&h=633&hcb=2&ved=2ahUKEwiJ8-O8yNWNAxWtjIkEHTUzAnEQM3oECBwQAA",
       tags: [
         "HTML",
         "CSS",
@@ -341,7 +344,7 @@ export const Bio = {
       description:
         "This is a web application where all the students can see their course updates such as assignments, exams, and they can even submit assignments and get graded by the faculty. They can monitor their course progress. We even added a statistical approach so they can understand easily. Developed a data warehouse to store and analyze student performance data. Created data visualization dashboards using Tableau. Implemented data transformation using Python.",
       image:
-        "https://user-images.githubusercontent.com/64485885/234602896-a1bd8bcc-b72b-4821-83d6-8ad885bf435e.png",
+        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fxbsoftware.com%2Fcase-studies-webdev%2Fstudent-data-tracking-app%2F&psig=AOvVaw07JT1pqUFcITg77Yq3os3C&ust=1749051068692000&source=images&cd=vfe&opi=89978449&ved=0CBYQjRxqFwoTCNjPro_J1Y0DFQAAAAAdAAAAABAE",
       tags: ["React Js", "MySql Database", "Node Js", "HTML", "CSS","JavaScript","PHP","SQL","XAAMP","Laravel"],
       category: "web app",
       
@@ -352,8 +355,6 @@ export const Bio = {
       date: "Jan 2022 - May 2022",
       description:
         "An application for students who opted for Higher Education and are searching for universities according to their scores and abilities. Application can recommend and predict the chances of admittance into a particular or various universities",
-      image:
-        "https://user-images.githubusercontent.com/64485885/234916413-96296f13-fe4b-4cc4-b215-e72bd7c27928.png",
       tags: [
         "React Js",
         "Jupyter Notebook",
@@ -373,8 +374,7 @@ export const Bio = {
       date: "Jan 2021 - May 2021",
       description:
         "An application for assigning invigilators for examinations in universities according to the count of students and classrooms available. Where we gathered information about the examinations, rooms available and faculty availability to prepare software which assigns faculty to an examination hall.",
-      image:
-        "https://github.com/rishavchanda/Brain-Tumor-Detection/raw/main/Readme_resource/Image2.png",
+      
       tags: ["Python", "React Js", "NodeJs", "MySql", "JavaScript", "Jenkins","SonarQube","Jira tool","Jasmine","Selenium IDE"],
       category: "web app",
       
@@ -385,8 +385,6 @@ export const Bio = {
       date: "June 2020 - Dec 2020",
       description:
         "An application for the rental of cars has been developed using a Database management system. Where a customer can search for a vehicle at the preferred locations and make a reservation.",
-      image:
-        "https://camo.githubusercontent.com/fbf405040ae86b5d4a40f24e4ac034982cb8c0e2d850560ba64527997b258be8/68747470733a2f2f666972656261736573746f726167652e676f6f676c65617069732e636f6d2f76302f622f6c6f67696e2d65613565322e61707073706f742e636f6d2f6f2f4255434b4f49442532302831292e706e673f616c743d6d6564696126746f6b656e3d32653735376235372d323964372d346263612d613562322d653164346538313432373435",
       tags: ["Mysql", "HTML", " CSS", "PHP","Javascript","SQL"],
       category: "web app",
     },/*
