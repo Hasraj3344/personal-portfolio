@@ -132,16 +132,16 @@ const EducationCard = ({ education }) => {
     return (
         <Card>
             <Top>
-                <Image src={education.img} />
+                <Image src={education.school_logo_url} />
                 <Body>
-                    <Name>{education.school}</Name>
+                    <Name>{education.school_name}</Name>
                     <Degree>{education.degree}</Degree>
-                    <Date>{education.date}</Date>
+                    <Date>{education.date_range}</Date>
                 </Body>
             </Top>
             <Grade><b>Grade: </b>{education.grade}</Grade>
             <Description>
-                <Span>{education.desc}</Span>
+                <Span>{education.description}</Span>
             </Description>
         </Card>
     )

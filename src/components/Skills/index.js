@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { skills } from '../../data/constants'
+import { DataContext } from '../../contexts/DataContext'
 
 const Container = styled.div`
 display: flex;
@@ -134,6 +134,10 @@ const SkillImage = styled.img`
 
 
 const Skills = () => {
+  const { skills } = useContext(DataContext);
+
+  if (!skills || skills.length === 0) return null;
+
   return (
     <Container id="skills">
       <Wrapper>
@@ -142,12 +146,12 @@ const Skills = () => {
         </Desc>
         <SkillsContainer>
           {skills.map((skill) => (
-            <Skill>
+            <Skill key={skill.id}>
               <SkillTitle>{skill.title}</SkillTitle>
               <SkillList>
-                {skill.skills.map((item) => (
-                  <SkillItem>
-                    <SkillImage src={item.image}/>
+                {skill.skills && skill.skills.map((item) => (
+                  <SkillItem key={item.id}>
+                    <SkillImage src={item.image_url}/>
                     {item.name}
                   </SkillItem>
                 ))}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
@@ -7,7 +7,7 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import ExperienceCard from '../Cards/ExperienceCard';
-import { experiences } from '../../data/constants';
+import { DataContext } from '../../contexts/DataContext';
 
 const Container = styled.div`
     display: flex;
@@ -96,7 +96,11 @@ const TimelineItemDate = styled.span`
     pointer-events: none;
 `;
 
-const index = () => {
+const Experience = () => {
+    const { experiences } = useContext(DataContext);
+
+    if (!experiences || experiences.length === 0) return null;
+
     return (
         <Container id="experience">
             <Wrapper>
@@ -107,7 +111,7 @@ const index = () => {
                 <TimelineSection>
                     <Timeline>
                         {experiences.map((experience, index) => (
-                            <TimelineItemContainer>
+                            <TimelineItemContainer key={experience.id}>
                                 <TimelineItem>
                                     <TimelineSeparator>
                                         <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
@@ -135,4 +139,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Experience

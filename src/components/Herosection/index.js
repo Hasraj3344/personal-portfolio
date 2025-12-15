@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import HeroBgAnimation from '../Bganimation'
 import { HeroContainer, HeroBg, HeroLeftContainer, Img, HeroRightContainer, HeroInnerContainer, TextLoop, Title, Span, SubTitle,SocialMediaIcons,SocialMediaIcon, ResumeButton } from './HeroStyle'
 import HeroImg from '../../images/HeroImage.jpg'
 import { Typewriter } from 'react-simple-typewriter';
-import { Bio } from '../../data/constants';
-console.log(Bio.roles);
+import { DataContext } from '../../contexts/DataContext';
 
 const HeroSection = () => {
+    const { bio } = useContext(DataContext);
+
+    // Show nothing while loading or if no bio data (loading handled by App.js)
+    if (!bio) return null;
+
     return (
         <div id="about">
             <HeroContainer>
@@ -15,12 +19,12 @@ const HeroSection = () => {
                 </HeroBg>
                 <HeroInnerContainer >
                     <HeroLeftContainer id="Left">
-                        <Title>Hi, I am <br /> {Bio.name}</Title>
+                        <Title>Hi, I am <br /> {bio.name}</Title>
                         <TextLoop>
                             I am a
                             <Span>
                             <Typewriter
-                            words={Bio.roles}
+                            words={bio.roles}
                             loop={true}
                             cursor
                             cursorStyle="|"
@@ -31,8 +35,8 @@ const HeroSection = () => {
 
                             </Span>
                         </TextLoop>
-                        <SubTitle>{Bio.description}</SubTitle>
-                        <ResumeButton href={Bio.resume} target='display'>Check Resume</ResumeButton>
+                        <SubTitle>{bio.description}</SubTitle>
+                        <ResumeButton href={bio.resume_url} target='display'>Check Resume</ResumeButton>
                     </HeroLeftContainer>
 
                     <HeroRightContainer id="Right">

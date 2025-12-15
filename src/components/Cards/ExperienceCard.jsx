@@ -151,33 +151,33 @@ const ExperienceCard = ({ experience }) => {
     return (
         <Card>
             <Top>
-                <Image src={experience.img} />
+                <Image src={experience.company_logo_url} />
                 <Body>
                     <Role>{experience.role}</Role>
                     <Company>{experience.company}</Company>
-                    <Date>{experience.date}</Date>
+                    <Date>{experience.date_range}</Date>
                 </Body>
             </Top>
             <Description>
-                {experience?.desc &&
-                    <Span>{experience?.desc}</Span>
+                {experience?.description &&
+                    <Span>{experience?.description}</Span>
 
                 }
-                {experience?.skills &&
+                {experience?.skills_used &&
                     <>
                         <br />
                         <Skills>
                             <b>Skills:</b>
                             <ItemWrapper>
-                                {experience?.skills?.map((skill, index) => (
-                                    <Skill>• {skill}</Skill>
+                                {experience?.skills_used?.map((skill, index) => (
+                                    <Skill key={index}>• {skill}</Skill>
                                 ))}
                             </ItemWrapper>
                         </Skills>
                     </>
                 }
             </Description>
-            
+
         </Card>
     )
 }

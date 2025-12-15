@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
@@ -7,7 +7,7 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import { education, experiences } from '../../data/constants';
+import { DataContext } from '../../contexts/DataContext';
 import EducationCard from '../Cards/EducationCard';
 
 const Container = styled.div`
@@ -77,7 +77,11 @@ const TimelineSection = styled.div`
 
 
 
-const index = () => {
+const Education = () => {
+    const { education } = useContext(DataContext);
+
+    if (!education || education.length === 0) return null;
+
     return (
         <Container id="education">
             <Wrapper>
@@ -87,14 +91,14 @@ const index = () => {
                 </Desc>
                 <TimelineSection>
                     <Timeline>
-                        {education.map((education,index) => (
-                            <TimelineItem >
+                        {education.map((edu,index) => (
+                            <TimelineItem key={edu.id}>
                                 <TimelineContent sx={{ py: '15px', px: 2 }}>
-                                    <EducationCard education={education}/>
+                                    <EducationCard education={edu}/>
                                 </TimelineContent>
                                 <TimelineSeparator>
                                     <TimelineDot variant="outlined" color="primary" />
-                                    {index !== experiences.length -1  && <TimelineConnector style={{ background: '#60A5FA' }} />}
+                                    {index !== education.length -1  && <TimelineConnector style={{ background: '#60A5FA' }} />}
                                 </TimelineSeparator>
                             </TimelineItem>
                         ))}
@@ -106,4 +110,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Education
