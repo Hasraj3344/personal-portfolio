@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import HeroBgAnimation from '../Bganimation'
-import { HeroContainer, HeroBg, HeroLeftContainer, Img, HeroRightContainer, HeroInnerContainer, TextLoop, Title, Span, SubTitle,SocialMediaIcons,SocialMediaIcon, ResumeButton } from './HeroStyle'
+import { HeroContainer, HeroBg, HeroLeftContainer, Img, HeroRightContainer, HeroInnerContainer, TextLoop, Title, Span, SubTitle, ResumeButton } from './HeroStyle'
 import HeroImg from '../../images/HeroImage.jpg'
 import { Typewriter } from 'react-simple-typewriter';
 import { DataContext } from '../../contexts/DataContext';

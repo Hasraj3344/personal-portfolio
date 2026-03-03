@@ -1,5 +1,4 @@
 import { supabase } from '../config/supabase';
-import bcrypt from 'bcryptjs';
 
 // ==================== BIO APIs ====================
 export const getBio = async () => {
@@ -323,7 +322,7 @@ export const uploadImage = async (file, folder) => {
   const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
   const filePath = `${folder}/${fileName}`;
 
-  const { data, error } = await supabase.storage
+  const { error } = await supabase.storage
     .from('portfolio-images')
     .upload(filePath, file);
 
