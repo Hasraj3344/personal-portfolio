@@ -2,7 +2,8 @@ import React, { useContext } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import HeroBgAnimation from '../Bganimation'
 import { HeroContainer, HeroBg, HeroLeftContainer, Img, HeroRightContainer, HeroInnerContainer, TextLoop, Title, Span, SubTitle, ResumeButton } from './HeroStyle'
-import HeroImg from '../../images/HeroImage.jpg'
+import HeroImg from '../../images/optimized/HeroImage.jpg'
+import HeroImgWebp from '../../images/optimized/HeroImage.webp'
 import { Typewriter } from 'react-simple-typewriter';
 import { DataContext } from '../../contexts/DataContext';
 import { slideInLeft, slideInRight } from '../../utils/animations';
@@ -68,7 +69,7 @@ const HeroSection = () => {
                         variants={slideInRight}
                         id="Right"
                     >
-                        <Img src={HeroImg} alt="hero-image" />
+                        <Img src={HeroImg} webpSrc={HeroImgWebp} alt="hero-image" />
                     </HeroRightContainer>
                 </HeroInnerContainer>
 

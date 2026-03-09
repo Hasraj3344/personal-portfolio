@@ -159,18 +159,22 @@ export const Span = styled.span`
 `;
 
 export const SubTitle = styled.div`
-  font-size: 20px;
-  line-height: 32px;
+  font-size: 18px;
+  line-height: 26px;
   margin-bottom: 42px;
+  max-width: 750px;
+  width: 100%;
   color: ${({ theme }) => theme.text_primary + 95};
 
   @media (max-width: 960px) {
     text-align: center;
+    max-width: 600px;
   }
 
   @media (max-width: 640px) {
     font-size: 16px;
-    line-height: 32px;
+    line-height: 24px;
+    max-width: 100%;
   }
 `;
 
