@@ -5,8 +5,7 @@ import { HeroContainer, HeroBg, HeroLeftContainer, Img, HeroRightContainer, Hero
 import HeroImg from '../../images/HeroImage.jpg'
 import { Typewriter } from 'react-simple-typewriter';
 import { DataContext } from '../../contexts/DataContext';
-import OptimizedImage from '../OptimizedImage';
-import { fadeIn, slideInLeft, slideInRight } from '../../utils/animations';
+import { slideInLeft, slideInRight } from '../../utils/animations';
 
 const HeroSection = () => {
     const { bio } = useContext(DataContext);

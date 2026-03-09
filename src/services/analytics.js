@@ -1,5 +1,5 @@
 import ReactGA from 'react-ga4';
-import { supabase } from './supabaseClient';
+import { supabase } from '../config/supabase';
 
 // Initialize Google Analytics 4
 export const initGA = () => {

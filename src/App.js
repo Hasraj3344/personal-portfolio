@@ -35,7 +35,7 @@ const ManageSkills = lazy(() => import('./pages/Admin/ManageSkills'));
 const ManageExperience = lazy(() => import('./pages/Admin/ManageExperience'));
 const ManageEducation = lazy(() => import('./pages/Admin/ManageEducation'));
 const ManageProjects = lazy(() => import('./pages/Admin/ManageProjects'));
-const Analytics = lazy(() => import('./pages/Admin/Analytics'));
+const AdminAnalytics = lazy(() => import('./pages/Admin/Analytics'));
 const ManageContacts = lazy(() => import('./pages/Admin/ManageContacts'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -144,7 +144,7 @@ function App() {
                   <Route path="experience" element={<ManageExperience />} />
                   <Route path="education" element={<ManageEducation />} />
                   <Route path="projects" element={<ManageProjects />} />
-                  <Route path="analytics" element={<Analytics />} />
+                  <Route path="analytics" element={<AdminAnalytics />} />
                   <Route path="contacts" element={<ManageContacts />} />
                 </Route>
                 <Route path="/*" element={

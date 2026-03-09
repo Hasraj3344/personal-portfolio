@@ -24,7 +24,6 @@ import {
   Delete,
   Visibility,
   Email,
-  FilterList,
   Search,
 } from '@mui/icons-material';
 import toast from 'react-hot-toast';
@@ -176,6 +175,7 @@ const ManageContacts = () => {
 
   useEffect(() => {
     filterContacts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contacts, statusFilter, searchQuery]);
 
   const fetchContacts = async () => {
