@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { motion } from 'framer-motion'
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
@@ -8,6 +9,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import ExperienceCard from '../Cards/ExperienceCard';
 import { DataContext } from '../../contexts/DataContext';
+import { scrollReveal, staggerContainer, staggerItem } from '../../utils/animations';
 
 const Container = styled.div`
     display: flex;
@@ -96,6 +98,11 @@ const TimelineItemDate = styled.span`
     pointer-events: none;
 `;
 
+const StyledTimelineConnector = styled(TimelineConnector)`
+    background: linear-gradient(180deg, ${({ theme }) => theme.primary}, ${({ theme }) => theme.primary + '80'});
+    box-shadow: 0 0 10px ${({ theme }) => theme.accentGlow};
+`;
+
 const Experience = () => {
     const { experiences } = useContext(DataContext);
 
@@ -104,14 +111,38 @@ const Experience = () => {
     return (
         <Container id="experience">
             <Wrapper>
-                <Title>Experience</Title>
-                <Desc>
+                <Title
+                    as={motion.div}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                    variants={scrollReveal}
+                >
+                    Experience
+                </Title>
+                <Desc
+                    as={motion.div}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                    variants={scrollReveal}
+                >
                     My work experience as a software engineer and working on different companies and projects.
                 </Desc>
-                <TimelineSection>
+                <TimelineSection
+                    as={motion.div}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.1 }}
+                    variants={staggerContainer}
+                >
                     <Timeline>
                         {experiences.map((experience, index) => (
-                            <TimelineItemContainer key={experience.id}>
+                            <TimelineItemContainer
+                                as={motion.div}
+                                key={experience.id}
+                                variants={staggerItem}
+                            >
                                 <TimelineItem>
                                     <TimelineSeparator>
                                         <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
@@ -121,7 +152,7 @@ const Experience = () => {
                                             </TimelineItemDate>
                                         </div>
                                         {index !== experiences.length - 1 && (
-                                            <TimelineConnector style={{ background: '#60A5FA' }} />
+                                            <StyledTimelineConnector />
                                         )}
                                     </TimelineSeparator>
                                     <TimelineContent sx={{ py: '15px', px: 2 }}>

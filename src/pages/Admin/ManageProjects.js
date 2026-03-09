@@ -14,16 +14,18 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Alert,
   Stack,
   Chip,
-  MenuItem
+  MenuItem,
+  CircularProgress
 } from '@mui/material';
 import {
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon
 } from '@mui/icons-material';
+import { toast } from 'react-hot-toast';
+import ConfirmDialog from '../../components/ConfirmDialog';
 
 const ManageProjects = () => {
   const { projects, refreshData } = useContext(DataContext);
@@ -41,8 +43,7 @@ const ManageProjects = () => {
   });
   const [tagInput, setTagInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [confirmDialog, setConfirmDialog] = useState({ open: false, action: null, title: '', message: '' });
 
   const categories = ['web app', 'machine learning', 'android app'];
 
@@ -104,7 +105,6 @@ const ManageProjects = () => {
 
   const handleSave = async () => {
     setLoading(true);
-    setError('');
     try {
       const maxOrder = projects.length > 0
         ? Math.max(...projects.map(p => p.order_index))
@@ -117,31 +117,38 @@ const ManageProjects = () => {
 
       if (editing) {
         await updateProject(editing.id, dataToSave);
+        toast.success('Project updated successfully!');
       } else {
         await addProject(dataToSave);
+        toast.success('Project added successfully!');
       }
       await refreshData();
       setDialog(false);
-      setSuccess(editing ? 'Project updated!' : 'Project added!');
-      setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      setError(err.message || 'Failed to save project');
+      toast.error(err.message || 'Failed to save project');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleDeleteClick = (id, title) => {
+    setConfirmDialog({
+      open: true,
+      action: () => handleDelete(id),
+      title: 'Delete Project',
+      message: `Are you sure you want to delete "${title}"? This action cannot be undone.`,
+      severity: 'error'
+    });
+  };
+
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this project?')) return;
     setLoading(true);
-    setError('');
     try {
       await deleteProject(id);
       await refreshData();
-      setSuccess('Project deleted!');
-      setTimeout(() => setSuccess(''), 3000);
+      toast.success('Project deleted successfully!');
     } catch (err) {
-      setError(err.message || 'Failed to delete project');
+      toast.error(err.message || 'Failed to delete project');
     } finally {
       setLoading(false);
     }
@@ -170,18 +177,6 @@ const ManageProjects = () => {
       <Typography variant="body1" sx={{ mb: 4, color: '#9CA3AF' }}>
         Manage your portfolio projects
       </Typography>
-
-      {success && (
-        <Alert severity="success" sx={{ mb: 3 }}>
-          {success}
-        </Alert>
-      )}
-
-      {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-      )}
 
       <Stack spacing={2}>
         {projects?.map((project) => (
@@ -258,7 +253,7 @@ const ManageProjects = () => {
                       <EditIcon />
                     </IconButton>
                     <IconButton
-                      onClick={() => handleDelete(project.id)}
+                      onClick={() => handleDeleteClick(project.id, project.title)}
                       sx={{ color: '#EF4444' }}
                     >
                       <DeleteIcon />
@@ -293,16 +288,6 @@ const ManageProjects = () => {
               value={formData.title}
               onChange={handleChange}
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <TextField
               fullWidth
@@ -312,16 +297,6 @@ const ManageProjects = () => {
               onChange={handleChange}
               placeholder="e.g., Jan 2023 - Mar 2023"
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <TextField
               fullWidth
@@ -331,16 +306,6 @@ const ManageProjects = () => {
               value={formData.category}
               onChange={handleChange}
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             >
               {categories.map((cat) => (
                 <MenuItem key={cat} value={cat}>
@@ -355,37 +320,21 @@ const ManageProjects = () => {
               value={formData.image_url}
               onChange={handleChange}
               placeholder="https://..."
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
-            <TextField
-              fullWidth
-              multiline
-              rows={4}
-              label="Description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
-            />
+            <Box>
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                label="Description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                required
+                inputProps={{ maxLength: 500 }}
+                helperText={`${formData.description.length}/500 characters`}
+              />
+            </Box>
             <TextField
               fullWidth
               label="GitHub URL"
@@ -393,16 +342,6 @@ const ManageProjects = () => {
               value={formData.github_url}
               onChange={handleChange}
               placeholder="https://github.com/..."
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <TextField
               fullWidth
@@ -411,16 +350,6 @@ const ManageProjects = () => {
               value={formData.webapp_url}
               onChange={handleChange}
               placeholder="https://..."
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <Box>
               <TextField
@@ -431,17 +360,6 @@ const ManageProjects = () => {
                 onKeyDown={handleAddTag}
                 placeholder="Type a tag and press Enter"
                 helperText="Press Enter to add each tag"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: '#fff',
-                    '& fieldset': { borderColor: '#333' },
-                    '&:hover fieldset': { borderColor: '#60A5FA' },
-                    '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                  },
-                  '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                  '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' },
-                  '& .MuiFormHelperText-root': { color: '#9CA3AF' }
-                }}
               />
               <Box sx={{ mt: 2, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                 {formData.tags.map((tag, index) => (
@@ -465,18 +383,29 @@ const ManageProjects = () => {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDialog(false)} sx={{ color: '#9CA3AF' }}>
+          <Button onClick={() => setDialog(false)} disabled={loading}>
             Cancel
           </Button>
           <Button
             onClick={handleSave}
             disabled={loading || !formData.title.trim() || !formData.description.trim()}
-            sx={{ color: '#60A5FA' }}
+            variant="contained"
+            startIcon={loading && <CircularProgress size={20} />}
           >
             {loading ? 'Saving...' : 'Save'}
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Confirm Dialog */}
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onClose={() => setConfirmDialog({ open: false, action: null, title: '', message: '' })}
+        onConfirm={confirmDialog.action}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        severity={confirmDialog.severity}
+      />
     </Box>
   );
 };

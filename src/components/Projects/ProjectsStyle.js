@@ -52,10 +52,14 @@ export const Desc = styled.div`
 
 export const ToggleButtonGroup = styled.div`
     display: flex;
+    background: ${({ theme }) => theme.glassBg};
+    backdrop-filter: blur(${({ theme }) => theme.blur.sm});
+    -webkit-backdrop-filter: blur(${({ theme }) => theme.blur.sm});
     border: 1.5px solid ${({ theme }) => theme.primary};
+    box-shadow: ${({ theme }) => theme.shadowSm};
     color: ${({ theme }) => theme.primary};
     font-size: 16px;
-    border-radius: 12px;
+    border-radius: ${({ theme }) => theme.borderRadius.lg};
     font-weight: 500;
     margin: 22px 0px;
     @media (max-width: 768px) {
@@ -87,19 +91,18 @@ export const Divider = styled.div`
 
 
 export const CardContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 28px;
-    flex-wrap: wrap;
-    // display: grid;
-    // grid-template-columns: repeat(3, 1fr);
-    // grid-gap: 32px;
-    // grid-auto-rows: minmax(100px, auto);
-    // @media (max-width: 960px) {
-    //     grid-template-columns: repeat(2, 1fr);
-    // }
-    // @media (max-width: 640px) {
-    //     grid-template-columns: repeat(1, 1fr);
-    // }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: ${({ theme }) => theme.spacing.lg};
+    width: 100%;
+    padding: 0 ${({ theme }) => theme.spacing.md};
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: ${({ theme }) => theme.spacing.md};
+    }
+
+    @media (min-width: 1440px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
 `;

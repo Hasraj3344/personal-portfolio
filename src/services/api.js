@@ -342,9 +342,60 @@ export const deleteImage = async (imageUrl) => {
 
   const filePath = urlParts[1];
 
-  const { error } = await supabase.storage
+  const { error} = await supabase.storage
     .from('portfolio-images')
     .remove([filePath]);
 
   if (error) throw error;
+};
+
+// ==================== CONTACT SUBMISSIONS APIs ====================
+export const submitContactForm = async (formData) => {
+  const { data, error } = await supabase
+    .from('contact_submissions')
+    .insert([
+      {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        status: 'new',
+        user_agent: navigator.userAgent,
+      },
+    ])
+    .select();
+
+  if (error) throw error;
+  return data?.[0];
+};
+
+export const getContactSubmissions = async () => {
+  const { data, error } = await supabase
+    .from('contact_submissions')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return data;
+};
+
+export const updateContactSubmissionStatus = async (id, status) => {
+  const { data, error } = await supabase
+    .from('contact_submissions')
+    .update({ status })
+    .eq('id', id)
+    .select();
+
+  if (error) throw error;
+  return data?.[0];
+};
+
+export const deleteContactSubmission = async (id) => {
+  const { error } = await supabase
+    .from('contact_submissions')
+    .delete()
+    .eq('id', id);
+
+  if (error) throw error;
+  return true;
 };

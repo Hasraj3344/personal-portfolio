@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import { AuthContext } from '../../contexts/AuthContext';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Alert from '@mui/material/Alert';
 import LockIcon from '@mui/icons-material/Lock';
+import CircularProgress from '@mui/material/CircularProgress';
+import toast from 'react-hot-toast';
 
 const Container = styled.div`
   display: flex;
@@ -57,7 +58,6 @@ const Form = styled.form`
 
 const Login = () => {
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -70,15 +70,15 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
 
     const result = await login(password);
 
     if (result.success) {
+      toast.success('Login successful!');
       navigate('/admin');
     } else {
-      setError(result.error);
+      toast.error(result.error || 'Login failed');
       setPassword('');
     }
 
@@ -95,8 +95,6 @@ const Login = () => {
           </Title>
           <Subtitle>Enter your password to access the admin panel</Subtitle>
         </div>
-
-        {error && <Alert severity="error">{error}</Alert>}
 
         <Form onSubmit={handleSubmit}>
           <TextField
@@ -117,7 +115,8 @@ const Login = () => {
             size="large"
             fullWidth
             disabled={loading || !password}
-            sx={{
+            startIcon={loading ? <CircularProgress size={20} style={{ color: 'white' }} /> : null}
+            style={{
               padding: '12px',
               fontSize: '16px',
               textTransform: 'none',

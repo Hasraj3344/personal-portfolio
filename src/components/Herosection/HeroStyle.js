@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import OptimizedImage from "../OptimizedImage";
 
 export const HeroContainer = styled.div`
   background: ${({ theme }) => theme.card_light};
@@ -91,13 +92,22 @@ export const HeroRightContainer = styled.div`
   }
 `;
 
-export const Img = styled.img`
+export const Img = styled(OptimizedImage)`
   position: relative;
   width:500px; /* you can use % */
   height: 500px;
   object-fit: cover;
   border-radius: 20%;
   border: 2px solid ${({ theme }) => theme.primary};
+  box-shadow: 0 20px 60px ${({ theme }) => theme.accentGlow},
+              0 0 80px ${({ theme }) => theme.primary + '30'};
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 25px 80px ${({ theme }) => theme.accentGlow},
+                0 0 100px ${({ theme }) => theme.primary + '50'};
+    transform: scale(1.02);
+  }
 
   @media (max-width: 768px) {
     max-width: 400px;
@@ -174,29 +184,27 @@ export const ResumeButton = styled.a`
     text-align: center;
     padding: 16px 0;
     color:${({ theme }) => theme.white};
-    border-radius: 20px;
+    border-radius: ${({ theme }) => theme.borderRadius.lg};
     cursor: pointer;
     font-size: 20px;
     font-weight: 600;
-    transition: all 0.2s ease-in-out !important;
-    background: hsla(210, 100%, 56%, 1);
-background: linear-gradient(225deg, hsla(210, 100%, 56%, 1) 0%, hsla(222, 100%, 61%, 1) 100%);
-background: -moz-linear-gradient(225deg, hsla(210, 100%, 56%, 1) 0%, hsla(222, 100%, 61%, 1) 100%);
-background: -webkit-linear-gradient(225deg, hsla(210, 100%, 56%, 1) 0%, hsla(222, 100%, 61%, 1) 100%);
-box-shadow:  20px 20px 60px #0C1A2B,
-             -20px -20px 60px #0C1A2B;
+    transition: all 0.3s ease-in-out;
+    background: ${({ theme }) => theme.gradient};
+    box-shadow: ${({ theme }) => theme.shadowMd}, ${({ theme }) => theme.shadowGlow};
+    border: 1px solid ${({ theme }) => theme.primary + '40'};
 
     &:hover {
         transform: scale(1.05);
-    transition: all 0.4s ease-in-out;
-    box-shadow:  20px 20px 60px #1F2634,
-    filter: brightness(1);
-    }    
-    
-    
+        box-shadow: ${({ theme }) => theme.shadowLg},
+                    0 0 40px ${({ theme }) => theme.accentGlow};
+        border-color: ${({ theme }) => theme.primary};
+        filter: brightness(1.1);
+    }
+
+
     @media (max-width: 640px) {
         padding: 12px 0;
         font-size: 18px;
-    } 
+    }
 
 `;

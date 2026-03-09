@@ -3,9 +3,14 @@ import { Link as LinkR } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
 import { Bio } from "../../data/constants";
 import { MenuRounded } from "@mui/icons-material";
+import ThemeToggle from "../ThemeToggle";
 
 const Nav = styled.div`
-  background-color: #0F172A;
+  background: ${({ theme }) => theme.glassBg};
+  backdrop-filter: blur(${({ theme }) => theme.blur.lg});
+  -webkit-backdrop-filter: blur(${({ theme }) => theme.blur.lg});
+  border-bottom: 1px solid ${({ theme }) => theme.border + '40'};
+  box-shadow: ${({ theme }) => theme.shadowSm};
   height: 80px;
   display: flex;
   align-items: center;
@@ -52,13 +57,14 @@ const NavItems = styled.ul`
 `;
 
 const NavLink = styled.a`
-  color: #60A5FA;
+  color: ${({ theme }) => theme.primary};
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
   &:hover {
     color: ${({ theme }) => theme.primary};
+    text-shadow: 0 0 10px ${({ theme }) => theme.accentGlow};
   }
 `;
 
@@ -128,69 +134,111 @@ const MobileMenu = styled.ul`
   z-index: ${({ isOpen }) => (isOpen ? "1000" : "-1000")};
 `;
 
+const SkipLink = styled.a`
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 1rem;
+  background-color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.text_primary};
+  text-decoration: none;
+  border-radius: 4px;
+
+  &:focus {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 1rem;
+  }
+`;
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const theme = useTheme();
   return (
-    <Nav>
-      <NavbarContainer>
-        <NavLogo to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-        <NavLink href="/">Haswanth Rajesh</NavLink>
-        </NavLogo>
+    <>
+      <SkipLink href="#about">Skip to main content</SkipLink>
+      <Nav role="navigation" aria-label="Main navigation">
+        <NavbarContainer>
+          <NavLogo to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Home">
+            <NavLink href="/">Haswanth Rajesh</NavLink>
+          </NavLogo>
 
-        <MobileIcon onClick={() => setIsOpen(!isOpen)}>
-          <MenuRounded style={{ color: "inherit" }} />
-        </MobileIcon>
+          <MobileIcon
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={isOpen}
+            role="button"
+            tabIndex={0}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                setIsOpen(!isOpen);
+              }
+            }}
+          >
+            <MenuRounded style={{ color: "inherit" }} />
+          </MobileIcon>
 
-        <NavItems>
-          <NavLink href="#about">About</NavLink>
-          <NavLink href="#skills">Skills</NavLink>
-          <NavLink href="#experience">Experience</NavLink>
-          <NavLink href="#projects">Projects</NavLink>
-          <NavLink href="#education">Education</NavLink>
-          <NavLink href="#contact">ContactMe</NavLink>
-        </NavItems>
+          <NavItems role="menubar" aria-label="Desktop navigation">
+            <NavLink href="#about" role="menuitem">About</NavLink>
+            <NavLink href="#skills" role="menuitem">Skills</NavLink>
+            <NavLink href="#experience" role="menuitem">Experience</NavLink>
+            <NavLink href="#projects" role="menuitem">Projects</NavLink>
+            <NavLink href="#education" role="menuitem">Education</NavLink>
+            <NavLink href="#contact" role="menuitem">ContactMe</NavLink>
+          </NavItems>
 
         {isOpen && (
-          <MobileMenu isOpen={isOpen}>
-            <NavLink onClick={() => setIsOpen(!isOpen)} href="#about">
+          <MobileMenu isOpen={isOpen} role="menu" aria-label="Mobile navigation">
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#about" role="menuitem">
               About
             </NavLink>
-            <NavLink onClick={() => setIsOpen(!isOpen)} href="#skills">
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#skills" role="menuitem">
               Skills
             </NavLink>
-            <NavLink onClick={() => setIsOpen(!isOpen)} href="#experience">
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#experience" role="menuitem">
               Experience
             </NavLink>
-            <NavLink onClick={() => setIsOpen(!isOpen)} href="#projects">
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#projects" role="menuitem">
               Projects
             </NavLink>
-            <NavLink onClick={() => setIsOpen(!isOpen)} href="#education">
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#education" role="menuitem">
               Education
             </NavLink>
-            <NavLink onClick={() => setIsOpen(!isOpen)} href="#contact">
+            <NavLink onClick={() => setIsOpen(!isOpen)} href="#contact" role="menuitem">
               ContactMe
             </NavLink>
-            <GithubButton
-              href={Bio.linkedin}
-              target="_Blank"
-              style={{
-                background: theme.primary,
-                color: theme.text_primary,
-              }}
-            >
-              LinkedIn Profile
-            </GithubButton>
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'center', width: '100%' }}>
+              <ThemeToggle />
+              <GithubButton
+                href={Bio.linkedin}
+                target="_Blank"
+                aria-label="Visit LinkedIn profile"
+                style={{
+                  background: theme.primary,
+                  color: theme.text_primary,
+                  flex: 1,
+                }}
+              >
+                LinkedIn Profile
+              </GithubButton>
+            </div>
           </MobileMenu>
         )}
 
         <ButtonContainer>
-          <GithubButton href={Bio.linkedin} target="_Blank">
+          <ThemeToggle />
+          <GithubButton
+            href={Bio.linkedin}
+            target="_Blank"
+            aria-label="Visit LinkedIn profile"
+            style={{ marginLeft: '16px' }}
+          >
             LinkedIn Profile
           </GithubButton>
         </ButtonContainer>
       </NavbarContainer>
     </Nav>
+    </>
   );
 };
 

@@ -1,12 +1,20 @@
 import React, { useContext } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import HeroBgAnimation from '../Bganimation'
 import { HeroContainer, HeroBg, HeroLeftContainer, Img, HeroRightContainer, HeroInnerContainer, TextLoop, Title, Span, SubTitle, ResumeButton } from './HeroStyle'
 import HeroImg from '../../images/HeroImage.jpg'
 import { Typewriter } from 'react-simple-typewriter';
 import { DataContext } from '../../contexts/DataContext';
+import OptimizedImage from '../OptimizedImage';
+import { fadeIn, slideInLeft, slideInRight } from '../../utils/animations';
 
 const HeroSection = () => {
     const { bio } = useContext(DataContext);
+
+    // Parallax scroll effect
+    const { scrollY } = useScroll();
+    const y1 = useTransform(scrollY, [0, 500], [0, 150]); // Background moves down
+    const y2 = useTransform(scrollY, [0, 500], [0, -50]); // Content moves up
 
     // Show nothing while loading or if no bio data (loading handled by App.js)
     if (!bio) return null;
@@ -14,11 +22,18 @@ const HeroSection = () => {
     return (
         <div id="about">
             <HeroContainer>
-                <HeroBg>
+                <HeroBg as={motion.div} style={{ y: y1 }}>
                     <HeroBgAnimation />
                 </HeroBg>
-                <HeroInnerContainer >
-                    <HeroLeftContainer id="Left">
+                <HeroInnerContainer>
+                    <HeroLeftContainer
+                        as={motion.div}
+                        initial="hidden"
+                        animate="visible"
+                        variants={slideInLeft}
+                        style={{ y: y2 }}
+                        id="Left"
+                    >
                         <Title>Hi, I am <br /> {bio.name}</Title>
                         <TextLoop>
                             I am a
@@ -36,11 +51,24 @@ const HeroSection = () => {
                             </Span>
                         </TextLoop>
                         <SubTitle>{bio.description}</SubTitle>
-                        <ResumeButton href={bio.resume_url} target='display'>Check Resume</ResumeButton>
+                        <ResumeButton
+                            as={motion.a}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            href={bio.resume_url}
+                            target='display'
+                        >
+                            Check Resume
+                        </ResumeButton>
                     </HeroLeftContainer>
 
-                    <HeroRightContainer id="Right">
-
+                    <HeroRightContainer
+                        as={motion.div}
+                        initial="hidden"
+                        animate="visible"
+                        variants={slideInRight}
+                        id="Right"
+                    >
                         <Img src={HeroImg} alt="hero-image" />
                     </HeroRightContainer>
                 </HeroInnerContainer>

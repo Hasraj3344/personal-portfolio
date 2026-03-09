@@ -22,14 +22,16 @@ import {
   Card,
   CardContent,
   Grid,
-  Alert,
-  Stack
+  Stack,
+  CircularProgress
 } from '@mui/material';
 import {
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon
 } from '@mui/icons-material';
+import { toast } from 'react-hot-toast';
+import ConfirmDialog from '../../components/ConfirmDialog';
 
 const ManageSkills = () => {
   const { skills, refreshData } = useContext(DataContext);
@@ -41,8 +43,7 @@ const ManageSkills = () => {
   const [categoryForm, setCategoryForm] = useState({ title: '' });
   const [skillForm, setSkillForm] = useState({ name: '', image_url: '' });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [confirmDialog, setConfirmDialog] = useState({ open: false, action: null, title: '', message: '' });
 
   const handleOpenCategoryDialog = (category = null) => {
     if (category) {
@@ -69,36 +70,42 @@ const ManageSkills = () => {
 
   const handleSaveCategory = async () => {
     setLoading(true);
-    setError('');
     try {
       if (editingCategory) {
         await updateSkillCategory(editingCategory.id, categoryForm.title, editingCategory.order_index);
+        toast.success('Category updated successfully!');
       } else {
         const maxOrder = skills.length > 0 ? Math.max(...skills.map(c => c.order_index)) : -1;
         await addSkillCategory(categoryForm.title, maxOrder + 1);
+        toast.success('Category added successfully!');
       }
       await refreshData();
       setCategoryDialog(false);
-      setSuccess(editingCategory ? 'Category updated!' : 'Category added!');
-      setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      setError(err.message || 'Failed to save category');
+      toast.error(err.message || 'Failed to save category');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleDeleteCategoryClick = (categoryId, categoryTitle) => {
+    setConfirmDialog({
+      open: true,
+      action: () => handleDeleteCategory(categoryId),
+      title: 'Delete Category',
+      message: `Are you sure you want to delete "${categoryTitle}" and all its skills? This action cannot be undone.`,
+      severity: 'error'
+    });
+  };
+
   const handleDeleteCategory = async (categoryId) => {
-    if (!window.confirm('Delete this category and all its skills?')) return;
     setLoading(true);
-    setError('');
     try {
       await deleteSkillCategory(categoryId);
       await refreshData();
-      setSuccess('Category deleted!');
-      setTimeout(() => setSuccess(''), 3000);
+      toast.success('Category deleted successfully!');
     } catch (err) {
-      setError(err.message || 'Failed to delete category');
+      toast.error(err.message || 'Failed to delete category');
     } finally {
       setLoading(false);
     }
@@ -106,7 +113,6 @@ const ManageSkills = () => {
 
   const handleSaveSkill = async () => {
     setLoading(true);
-    setError('');
     try {
       if (editingSkill) {
         await updateSkill(editingSkill.id, {
@@ -114,35 +120,42 @@ const ManageSkills = () => {
           category_id: selectedCategoryId,
           order_index: editingSkill.order_index
         });
+        toast.success('Skill updated successfully!');
       } else {
         const category = skills.find(c => c.id === selectedCategoryId);
         const maxOrder = category.skills.length > 0
           ? Math.max(...category.skills.map(s => s.order_index))
           : -1;
         await addSkill(selectedCategoryId, skillForm.name, skillForm.image_url, maxOrder + 1);
+        toast.success('Skill added successfully!');
       }
       await refreshData();
       setSkillDialog(false);
-      setSuccess(editingSkill ? 'Skill updated!' : 'Skill added!');
-      setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      setError(err.message || 'Failed to save skill');
+      toast.error(err.message || 'Failed to save skill');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleDeleteSkillClick = (skillId, skillName) => {
+    setConfirmDialog({
+      open: true,
+      action: () => handleDeleteSkill(skillId),
+      title: 'Delete Skill',
+      message: `Are you sure you want to delete "${skillName}"?`,
+      severity: 'error'
+    });
+  };
+
   const handleDeleteSkill = async (skillId) => {
-    if (!window.confirm('Delete this skill?')) return;
     setLoading(true);
-    setError('');
     try {
       await deleteSkill(skillId);
       await refreshData();
-      setSuccess('Skill deleted!');
-      setTimeout(() => setSuccess(''), 3000);
+      toast.success('Skill deleted successfully!');
     } catch (err) {
-      setError(err.message || 'Failed to delete skill');
+      toast.error(err.message || 'Failed to delete skill');
     } finally {
       setLoading(false);
     }
@@ -171,18 +184,6 @@ const ManageSkills = () => {
       <Typography variant="body1" sx={{ mb: 4, color: '#9CA3AF' }}>
         Organize your skills by categories
       </Typography>
-
-      {success && (
-        <Alert severity="success" sx={{ mb: 3 }}>
-          {success}
-        </Alert>
-      )}
-
-      {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-      )}
 
       <Stack spacing={3}>
         {skills?.map((category) => (
@@ -216,7 +217,7 @@ const ManageSkills = () => {
                 </IconButton>
                 <IconButton
                   size="small"
-                  onClick={() => handleDeleteCategory(category.id)}
+                  onClick={() => handleDeleteCategoryClick(category.id, category.title)}
                   sx={{ color: '#EF4444' }}
                 >
                   <DeleteIcon />
@@ -248,7 +249,7 @@ const ManageSkills = () => {
                           </IconButton>
                           <IconButton
                             size="small"
-                            onClick={() => handleDeleteSkill(skill.id)}
+                            onClick={() => handleDeleteSkillClick(skill.id, skill.name)}
                             sx={{ color: '#EF4444' }}
                           >
                             <DeleteIcon fontSize="small" />
@@ -287,27 +288,19 @@ const ManageSkills = () => {
             label="Category Title"
             value={categoryForm.title}
             onChange={(e) => setCategoryForm({ title: e.target.value })}
-            sx={{
-              mt: 2,
-              '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#333' },
-                '&:hover fieldset': { borderColor: '#60A5FA' },
-                '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-              },
-              '& .MuiInputLabel-root': { color: '#9CA3AF' },
-              '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-            }}
+            required
+            sx={{ mt: 2 }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setCategoryDialog(false)} sx={{ color: '#9CA3AF' }}>
+          <Button onClick={() => setCategoryDialog(false)} disabled={loading}>
             Cancel
           </Button>
           <Button
             onClick={handleSaveCategory}
             disabled={loading || !categoryForm.title.trim()}
-            sx={{ color: '#60A5FA' }}
+            variant="contained"
+            startIcon={loading && <CircularProgress size={20} />}
           >
             {loading ? 'Saving...' : 'Save'}
           </Button>
@@ -332,16 +325,7 @@ const ManageSkills = () => {
               label="Skill Name"
               value={skillForm.name}
               onChange={(e) => setSkillForm({ ...skillForm, name: e.target.value })}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
+              required
             />
             <TextField
               fullWidth
@@ -349,32 +333,34 @@ const ManageSkills = () => {
               value={skillForm.image_url}
               onChange={(e) => setSkillForm({ ...skillForm, image_url: e.target.value })}
               placeholder="https://..."
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
+              required
             />
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setSkillDialog(false)} sx={{ color: '#9CA3AF' }}>
+          <Button onClick={() => setSkillDialog(false)} disabled={loading}>
             Cancel
           </Button>
           <Button
             onClick={handleSaveSkill}
             disabled={loading || !skillForm.name.trim() || !skillForm.image_url.trim()}
-            sx={{ color: '#60A5FA' }}
+            variant="contained"
+            startIcon={loading && <CircularProgress size={20} />}
           >
             {loading ? 'Saving...' : 'Save'}
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Confirm Dialog */}
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onClose={() => setConfirmDialog({ open: false, action: null, title: '', message: '' })}
+        onConfirm={confirmDialog.action}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        severity={confirmDialog.severity}
+      />
     </Box>
   );
 };

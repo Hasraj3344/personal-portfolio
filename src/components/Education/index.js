@@ -1,6 +1,7 @@
 
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { motion } from 'framer-motion'
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
@@ -9,6 +10,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import { DataContext } from '../../contexts/DataContext';
 import EducationCard from '../Cards/EducationCard';
+import { scrollReveal, staggerContainer, staggerItem } from '../../utils/animations';
 
 const Container = styled.div`
     display: flex;
@@ -75,7 +77,10 @@ const TimelineSection = styled.div`
     }
 `;
 
-
+const StyledTimelineConnector = styled(TimelineConnector)`
+    background: linear-gradient(180deg, ${({ theme }) => theme.primary}, ${({ theme }) => theme.primary + '80'});
+    box-shadow: 0 0 10px ${({ theme }) => theme.accentGlow};
+`;
 
 const Education = () => {
     const { education } = useContext(DataContext);
@@ -85,20 +90,44 @@ const Education = () => {
     return (
         <Container id="education">
             <Wrapper>
-                <Title>Education</Title>
-                <Desc>
+                <Title
+                    as={motion.div}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                    variants={scrollReveal}
+                >
+                    Education
+                </Title>
+                <Desc
+                    as={motion.div}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                    variants={scrollReveal}
+                >
                     My education has been a journey of self-discovery and growth. My educational details are as follows.
                 </Desc>
-                <TimelineSection>
+                <TimelineSection
+                    as={motion.div}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.1 }}
+                    variants={staggerContainer}
+                >
                     <Timeline>
                         {education.map((edu,index) => (
-                            <TimelineItem key={edu.id}>
+                            <TimelineItem
+                                as={motion.div}
+                                key={edu.id}
+                                variants={staggerItem}
+                            >
                                 <TimelineContent sx={{ py: '15px', px: 2 }}>
                                     <EducationCard education={edu}/>
                                 </TimelineContent>
                                 <TimelineSeparator>
                                     <TimelineDot variant="outlined" color="primary" />
-                                    {index !== education.length -1  && <TimelineConnector style={{ background: '#60A5FA' }} />}
+                                    {index !== education.length -1  && <StyledTimelineConnector />}
                                 </TimelineSeparator>
                             </TimelineItem>
                         ))}

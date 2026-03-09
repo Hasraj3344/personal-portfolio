@@ -13,15 +13,17 @@ import {
   IconButton,
   Card,
   CardContent,
-  Alert,
   Stack,
-  Chip
+  Chip,
+  CircularProgress
 } from '@mui/material';
 import {
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon
 } from '@mui/icons-material';
+import { toast } from 'react-hot-toast';
+import ConfirmDialog from '../../components/ConfirmDialog';
 
 const ManageExperience = () => {
   const { experiences, refreshData } = useContext(DataContext);
@@ -37,8 +39,7 @@ const ManageExperience = () => {
   });
   const [skillInput, setSkillInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [confirmDialog, setConfirmDialog] = useState({ open: false, action: null, title: '', message: '' });
 
   const handleOpenDialog = (experience = null) => {
     if (experience) {
@@ -94,7 +95,6 @@ const ManageExperience = () => {
 
   const handleSave = async () => {
     setLoading(true);
-    setError('');
     try {
       const maxOrder = experiences.length > 0
         ? Math.max(...experiences.map(e => e.order_index))
@@ -107,31 +107,38 @@ const ManageExperience = () => {
 
       if (editing) {
         await updateExperience(editing.id, dataToSave);
+        toast.success('Experience updated successfully!');
       } else {
         await addExperience(dataToSave);
+        toast.success('Experience added successfully!');
       }
       await refreshData();
       setDialog(false);
-      setSuccess(editing ? 'Experience updated!' : 'Experience added!');
-      setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      setError(err.message || 'Failed to save experience');
+      toast.error(err.message || 'Failed to save experience');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleDeleteClick = (id, role) => {
+    setConfirmDialog({
+      open: true,
+      action: () => handleDelete(id),
+      title: 'Delete Experience',
+      message: `Are you sure you want to delete "${role}"? This action cannot be undone.`,
+      severity: 'error'
+    });
+  };
+
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this experience?')) return;
     setLoading(true);
-    setError('');
     try {
       await deleteExperience(id);
       await refreshData();
-      setSuccess('Experience deleted!');
-      setTimeout(() => setSuccess(''), 3000);
+      toast.success('Experience deleted successfully!');
     } catch (err) {
-      setError(err.message || 'Failed to delete experience');
+      toast.error(err.message || 'Failed to delete experience');
     } finally {
       setLoading(false);
     }
@@ -160,18 +167,6 @@ const ManageExperience = () => {
       <Typography variant="body1" sx={{ mb: 4, color: '#9CA3AF' }}>
         Manage your work experience history
       </Typography>
-
-      {success && (
-        <Alert severity="success" sx={{ mb: 3 }}>
-          {success}
-        </Alert>
-      )}
-
-      {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-      )}
 
       <Stack spacing={2}>
         {experiences?.map((exp) => (
@@ -224,7 +219,7 @@ const ManageExperience = () => {
                     <EditIcon />
                   </IconButton>
                   <IconButton
-                    onClick={() => handleDelete(exp.id)}
+                    onClick={() => handleDeleteClick(exp.id, exp.role)}
                     sx={{ color: '#EF4444' }}
                   >
                     <DeleteIcon />
@@ -258,16 +253,6 @@ const ManageExperience = () => {
               value={formData.role}
               onChange={handleChange}
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <TextField
               fullWidth
@@ -276,16 +261,6 @@ const ManageExperience = () => {
               value={formData.company}
               onChange={handleChange}
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <TextField
               fullWidth
@@ -295,16 +270,6 @@ const ManageExperience = () => {
               onChange={handleChange}
               placeholder="e.g., Jan 2020 - Dec 2021"
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <TextField
               fullWidth
@@ -313,37 +278,21 @@ const ManageExperience = () => {
               value={formData.company_logo_url}
               onChange={handleChange}
               placeholder="https://..."
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
-            <TextField
-              fullWidth
-              multiline
-              rows={4}
-              label="Description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
-            />
+            <Box>
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                label="Description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                required
+                inputProps={{ maxLength: 500 }}
+                helperText={`${formData.description.length}/500 characters`}
+              />
+            </Box>
             <Box>
               <TextField
                 fullWidth
@@ -353,17 +302,6 @@ const ManageExperience = () => {
                 onKeyDown={handleAddSkill}
                 placeholder="Type a skill and press Enter"
                 helperText="Press Enter to add each skill"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: '#fff',
-                    '& fieldset': { borderColor: '#333' },
-                    '&:hover fieldset': { borderColor: '#60A5FA' },
-                    '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                  },
-                  '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                  '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' },
-                  '& .MuiFormHelperText-root': { color: '#9CA3AF' }
-                }}
               />
               <Box sx={{ mt: 2, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                 {formData.skills_used.map((skill, index) => (
@@ -387,18 +325,29 @@ const ManageExperience = () => {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDialog(false)} sx={{ color: '#9CA3AF' }}>
+          <Button onClick={() => setDialog(false)} disabled={loading}>
             Cancel
           </Button>
           <Button
             onClick={handleSave}
             disabled={loading || !formData.role.trim() || !formData.company.trim()}
-            sx={{ color: '#60A5FA' }}
+            variant="contained"
+            startIcon={loading && <CircularProgress size={20} />}
           >
             {loading ? 'Saving...' : 'Save'}
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Confirm Dialog */}
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onClose={() => setConfirmDialog({ open: false, action: null, title: '', message: '' })}
+        onConfirm={confirmDialog.action}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        severity={confirmDialog.severity}
+      />
     </Box>
   );
 };

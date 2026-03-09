@@ -23,6 +23,8 @@ import {
   Work as WorkIcon,
   School as SchoolIcon,
   Folder as FolderIcon,
+  BarChart as AnalyticsIcon,
+  ContactMail as ContactsIcon,
   Logout as LogoutIcon
 } from '@mui/icons-material';
 
@@ -34,7 +36,9 @@ const menuItems = [
   { text: 'Manage Skills', icon: <CodeIcon />, path: '/admin/skills' },
   { text: 'Manage Experience', icon: <WorkIcon />, path: '/admin/experience' },
   { text: 'Manage Education', icon: <SchoolIcon />, path: '/admin/education' },
-  { text: 'Manage Projects', icon: <FolderIcon />, path: '/admin/projects' }
+  { text: 'Manage Projects', icon: <FolderIcon />, path: '/admin/projects' },
+  { text: 'Analytics', icon: <AnalyticsIcon />, path: '/admin/analytics' },
+  { text: 'Contact Submissions', icon: <ContactsIcon />, path: '/admin/contacts' }
 ];
 
 const AdminLayout = () => {

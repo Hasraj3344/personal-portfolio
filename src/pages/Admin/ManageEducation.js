@@ -13,14 +13,16 @@ import {
   IconButton,
   Card,
   CardContent,
-  Alert,
-  Stack
+  Stack,
+  CircularProgress
 } from '@mui/material';
 import {
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon
 } from '@mui/icons-material';
+import { toast } from 'react-hot-toast';
+import ConfirmDialog from '../../components/ConfirmDialog';
 
 const ManageEducation = () => {
   const { education, refreshData } = useContext(DataContext);
@@ -35,8 +37,7 @@ const ManageEducation = () => {
     description: ''
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [confirmDialog, setConfirmDialog] = useState({ open: false, action: null, title: '', message: '' });
 
   const handleOpenDialog = (edu = null) => {
     if (edu) {
@@ -72,7 +73,6 @@ const ManageEducation = () => {
 
   const handleSave = async () => {
     setLoading(true);
-    setError('');
     try {
       const maxOrder = education.length > 0
         ? Math.max(...education.map(e => e.order_index))
@@ -85,31 +85,38 @@ const ManageEducation = () => {
 
       if (editing) {
         await updateEducation(editing.id, dataToSave);
+        toast.success('Education updated successfully!');
       } else {
         await addEducation(dataToSave);
+        toast.success('Education added successfully!');
       }
       await refreshData();
       setDialog(false);
-      setSuccess(editing ? 'Education updated!' : 'Education added!');
-      setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      setError(err.message || 'Failed to save education');
+      toast.error(err.message || 'Failed to save education');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleDeleteClick = (id, schoolName, degree) => {
+    setConfirmDialog({
+      open: true,
+      action: () => handleDelete(id),
+      title: 'Delete Education',
+      message: `Are you sure you want to delete "${degree}" from ${schoolName}?`,
+      severity: 'error'
+    });
+  };
+
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this education entry?')) return;
     setLoading(true);
-    setError('');
     try {
       await deleteEducation(id);
       await refreshData();
-      setSuccess('Education deleted!');
-      setTimeout(() => setSuccess(''), 3000);
+      toast.success('Education deleted successfully!');
     } catch (err) {
-      setError(err.message || 'Failed to delete education');
+      toast.error(err.message || 'Failed to delete education');
     } finally {
       setLoading(false);
     }
@@ -138,18 +145,6 @@ const ManageEducation = () => {
       <Typography variant="body1" sx={{ mb: 4, color: '#9CA3AF' }}>
         Manage your educational background
       </Typography>
-
-      {success && (
-        <Alert severity="success" sx={{ mb: 3 }}>
-          {success}
-        </Alert>
-      )}
-
-      {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-      )}
 
       <Stack spacing={2}>
         {education?.map((edu) => (
@@ -193,7 +188,7 @@ const ManageEducation = () => {
                     <EditIcon />
                   </IconButton>
                   <IconButton
-                    onClick={() => handleDelete(edu.id)}
+                    onClick={() => handleDeleteClick(edu.id, edu.school_name, edu.degree)}
                     sx={{ color: '#EF4444' }}
                   >
                     <DeleteIcon />
@@ -227,16 +222,6 @@ const ManageEducation = () => {
               value={formData.school_name}
               onChange={handleChange}
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <TextField
               fullWidth
@@ -245,16 +230,6 @@ const ManageEducation = () => {
               value={formData.degree}
               onChange={handleChange}
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <TextField
               fullWidth
@@ -264,16 +239,6 @@ const ManageEducation = () => {
               onChange={handleChange}
               placeholder="e.g., Sep 2018 - Jun 2022"
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <TextField
               fullWidth
@@ -283,16 +248,6 @@ const ManageEducation = () => {
               onChange={handleChange}
               placeholder="e.g., 3.8 GPA"
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <TextField
               fullWidth
@@ -301,16 +256,6 @@ const ManageEducation = () => {
               value={formData.school_logo_url}
               onChange={handleChange}
               placeholder="https://..."
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
             />
             <TextField
               fullWidth
@@ -321,32 +266,40 @@ const ManageEducation = () => {
               value={formData.description}
               onChange={handleChange}
               required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-              }}
+              inputProps={{ maxLength: 500 }}
+              helperText={
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span>Brief description of your studies</span>
+                  <span>{formData.description.length}/500</span>
+                </Box>
+              }
             />
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDialog(false)} sx={{ color: '#9CA3AF' }}>
+          <Button onClick={() => setDialog(false)} disabled={loading}>
             Cancel
           </Button>
           <Button
             onClick={handleSave}
             disabled={loading || !formData.school_name.trim() || !formData.degree.trim()}
-            sx={{ color: '#60A5FA' }}
+            variant="contained"
+            startIcon={loading && <CircularProgress size={20} />}
           >
             {loading ? 'Saving...' : 'Save'}
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Confirm Dialog */}
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onClose={() => setConfirmDialog({ open: false, action: null, title: '', message: '' })}
+        onConfirm={confirmDialog.action}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        severity={confirmDialog.severity}
+      />
     </Box>
   );
 };

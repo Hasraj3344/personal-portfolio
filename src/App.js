@@ -1,34 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense, useEffect } from "react";
 import './App.css';
-import { ThemeProvider } from 'styled-components';
-import { darkTheme, lightTheme } from './utils/Themes';
+import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from "./components/Navbar";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SEO from "./components/SEO";
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import HeroSection from "./components/Herosection";
-import Skills from "./components/Skills";
-import Projects from "./components/Projects";
-import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import Experience from "./components/Experience";
-import Education from "./components/Education";
-import ProjectDetails from "./components/ProjectDetails";
+import BackToTop from "./components/BackToTop";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import styled from "styled-components";
 import { Analytics } from "@vercel/analytics/react";
 import { DataProvider } from './contexts/DataContext';
 import { AuthProvider } from './contexts/AuthContext';
-import Login from './components/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoadingSpinner from './components/LoadingSpinner';
 import { DataContext } from './contexts/DataContext';
-import AdminLayout from './components/Admin/AdminLayout';
-import Dashboard from './pages/Admin/Dashboard';
-import EditBio from './pages/Admin/EditBio';
-import ManageSkills from './pages/Admin/ManageSkills';
-import ManageExperience from './pages/Admin/ManageExperience';
-import ManageEducation from './pages/Admin/ManageEducation';
-import ManageProjects from './pages/Admin/ManageProjects';
+import { Toaster } from 'react-hot-toast';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { initGA, trackPageView } from './services/analytics';
+
+const Skills = lazy(() => import('./components/Skills'));
+const Projects = lazy(() => import('./components/Projects'));
+const Contact = lazy(() => import('./components/Contact'));
+const Experience = lazy(() => import('./components/Experience'));
+const Education = lazy(() => import('./components/Education'));
+const ProjectDetails = lazy(() => import('./components/ProjectDetails'));
+
+const Login = lazy(() => import('./components/Login'));
+const AdminLayout = lazy(() => import('./components/Admin/AdminLayout'));
+const Dashboard = lazy(() => import('./pages/Admin/Dashboard'));
+const EditBio = lazy(() => import('./pages/Admin/EditBio'));
+const ManageSkills = lazy(() => import('./pages/Admin/ManageSkills'));
+const ManageExperience = lazy(() => import('./pages/Admin/ManageExperience'));
+const ManageEducation = lazy(() => import('./pages/Admin/ManageEducation'));
+const ManageProjects = lazy(() => import('./pages/Admin/ManageProjects'));
+const Analytics = lazy(() => import('./pages/Admin/Analytics'));
+const ManageContacts = lazy(() => import('./pages/Admin/ManageContacts'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 const Body = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -55,16 +64,19 @@ const PortfolioHome = ({ openModal, setOpenModal, snackbarOpen, setSnackbarOpen 
 
   return (
     <Body>
+      <SEO />
       <HeroSection />
-      <Wrapper>
-        <Skills />
-        <Experience />
-      </Wrapper>
-      <Projects openModal={openModal} setOpenModal={setOpenModal} />
-      <Wrapper>
-        <Education />
-        <Contact setSnackbarOpen={setSnackbarOpen} />
-      </Wrapper>
+      <Suspense fallback={<LoadingSpinner />}>
+        <Wrapper>
+          <Skills />
+          <Experience />
+        </Wrapper>
+        <Projects openModal={openModal} setOpenModal={setOpenModal} />
+        <Wrapper>
+          <Education />
+          <Contact setSnackbarOpen={setSnackbarOpen} />
+        </Wrapper>
+      </Suspense>
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
@@ -78,53 +90,81 @@ const PortfolioHome = ({ openModal, setOpenModal, snackbarOpen, setSnackbarOpen 
       </Snackbar>
       <Footer />
       {openModal.state &&
-        <ProjectDetails openModal={openModal} setOpenModal={setOpenModal} />
+        <Suspense fallback={<div />}>
+          <ProjectDetails openModal={openModal} setOpenModal={setOpenModal} />
+        </Suspense>
       }
     </Body>
   );
 };
 
+// Component to track page views
+const PageTracker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+
+  return null;
+};
+
 function App() {
-  const [darkMode] = useState(true);
   const [openModal, setOpenModal] = useState({ state: false, project: null });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
+  // Initialize Google Analytics on app load
+  useEffect(() => {
+    initGA();
+  }, []);
+
+  const recaptchaKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
+
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <AuthProvider>
-        <DataProvider>
-          <Router>
-            <Analytics />
-            <Routes>
-              <Route path="/admin/login" element={<Login />} />
-              <Route path="/admin" element={
-                <ProtectedRoute>
-                  <AdminLayout />
-                </ProtectedRoute>
-              }>
-                <Route index element={<Dashboard />} />
-                <Route path="bio" element={<EditBio />} />
-                <Route path="skills" element={<ManageSkills />} />
-                <Route path="experience" element={<ManageExperience />} />
-                <Route path="education" element={<ManageEducation />} />
-                <Route path="projects" element={<ManageProjects />} />
-              </Route>
-              <Route path="/*" element={
-                <>
-                  <Navbar />
-                  <PortfolioHome
-                    openModal={openModal}
-                    setOpenModal={setOpenModal}
-                    snackbarOpen={snackbarOpen}
-                    setSnackbarOpen={setSnackbarOpen}
-                  />
-                </>
-              } />
-            </Routes>
+    <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey || 'test-key'}>
+      <ThemeProvider>
+        <AuthProvider>
+          <DataProvider>
+            <Router>
+              <PageTracker />
+              <Analytics />
+              <Toaster position="bottom-right" />
+              <BackToTop />
+              <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
+                <Route path="/admin/login" element={<Login />} />
+                <Route path="/admin" element={
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                }>
+                  <Route index element={<Dashboard />} />
+                  <Route path="bio" element={<EditBio />} />
+                  <Route path="skills" element={<ManageSkills />} />
+                  <Route path="experience" element={<ManageExperience />} />
+                  <Route path="education" element={<ManageEducation />} />
+                  <Route path="projects" element={<ManageProjects />} />
+                  <Route path="analytics" element={<Analytics />} />
+                  <Route path="contacts" element={<ManageContacts />} />
+                </Route>
+                <Route path="/*" element={
+                  <>
+                    <Navbar />
+                    <PortfolioHome
+                      openModal={openModal}
+                      setOpenModal={setOpenModal}
+                      snackbarOpen={snackbarOpen}
+                      setSnackbarOpen={setSnackbarOpen}
+                    />
+                  </>
+                } />
+              </Routes>
+            </Suspense>
           </Router>
         </DataProvider>
       </AuthProvider>
     </ThemeProvider>
+    </GoogleReCaptchaProvider>
   );
 }
 

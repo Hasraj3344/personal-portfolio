@@ -7,11 +7,12 @@ import {
   Typography,
   TextField,
   Button,
-  Alert,
   Chip,
-  Stack
+  Stack,
+  CircularProgress
 } from '@mui/material';
 import { Save as SaveIcon } from '@mui/icons-material';
+import { toast } from 'react-hot-toast';
 
 const EditBio = () => {
   const { bio, refreshData } = useContext(DataContext);
@@ -25,8 +26,6 @@ const EditBio = () => {
   });
   const [roleInput, setRoleInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
 
   useEffect(() => {
     if (bio) {
@@ -71,16 +70,13 @@ const EditBio = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setSuccess(false);
-    setError('');
 
     try {
       await updateBio(formData);
       await refreshData();
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
+      toast.success('Bio updated successfully!');
     } catch (err) {
-      setError(err.message || 'Failed to update bio');
+      toast.error(err.message || 'Failed to update bio');
     } finally {
       setLoading(false);
     }
@@ -94,18 +90,6 @@ const EditBio = () => {
       <Typography variant="body1" sx={{ mb: 4, color: '#9CA3AF' }}>
         Update your personal information and professional summary
       </Typography>
-
-      {success && (
-        <Alert severity="success" sx={{ mb: 3 }}>
-          Bio updated successfully!
-        </Alert>
-      )}
-
-      {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-      )}
 
       <Paper
         component="form"
@@ -124,16 +108,6 @@ const EditBio = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#333' },
-                '&:hover fieldset': { borderColor: '#60A5FA' },
-                '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-              },
-              '& .MuiInputLabel-root': { color: '#9CA3AF' },
-              '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-            }}
           />
 
           <Box>
@@ -145,17 +119,6 @@ const EditBio = () => {
               onKeyDown={handleAddRole}
               placeholder="Type a role and press Enter"
               helperText="Press Enter to add each role"
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#fff',
-                  '& fieldset': { borderColor: '#333' },
-                  '&:hover fieldset': { borderColor: '#60A5FA' },
-                  '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-                },
-                '& .MuiInputLabel-root': { color: '#9CA3AF' },
-                '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' },
-                '& .MuiFormHelperText-root': { color: '#9CA3AF' }
-              }}
             />
             <Box sx={{ mt: 2, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
               {formData.roles.map((role, index) => (
@@ -163,15 +126,6 @@ const EditBio = () => {
                   key={index}
                   label={role}
                   onDelete={() => handleDeleteRole(role)}
-                  sx={{
-                    bgcolor: '#60A5FA20',
-                    color: '#60A5FA',
-                    border: '1px solid #60A5FA',
-                    '& .MuiChip-deleteIcon': {
-                      color: '#60A5FA',
-                      '&:hover': { color: '#93C5FD' }
-                    }
-                  }}
                 />
               ))}
             </Box>
@@ -186,16 +140,13 @@ const EditBio = () => {
             value={formData.description}
             onChange={handleChange}
             required
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#333' },
-                '&:hover fieldset': { borderColor: '#60A5FA' },
-                '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-              },
-              '& .MuiInputLabel-root': { color: '#9CA3AF' },
-              '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-            }}
+            inputProps={{ maxLength: 500 }}
+            helperText={
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Brief professional summary</span>
+                <span>{formData.description.length}/500</span>
+              </Box>
+            }
           />
 
           <TextField
@@ -205,16 +156,6 @@ const EditBio = () => {
             value={formData.resume_url}
             onChange={handleChange}
             placeholder="https://..."
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#333' },
-                '&:hover fieldset': { borderColor: '#60A5FA' },
-                '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-              },
-              '& .MuiInputLabel-root': { color: '#9CA3AF' },
-              '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-            }}
           />
 
           <TextField
@@ -224,16 +165,6 @@ const EditBio = () => {
             value={formData.linkedin_url}
             onChange={handleChange}
             placeholder="https://linkedin.com/in/..."
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#333' },
-                '&:hover fieldset': { borderColor: '#60A5FA' },
-                '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-              },
-              '& .MuiInputLabel-root': { color: '#9CA3AF' },
-              '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-            }}
           />
 
           <TextField
@@ -243,36 +174,14 @@ const EditBio = () => {
             value={formData.instagram_url}
             onChange={handleChange}
             placeholder="https://instagram.com/..."
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#333' },
-                '&:hover fieldset': { borderColor: '#60A5FA' },
-                '&.Mui-focused fieldset': { borderColor: '#60A5FA' }
-              },
-              '& .MuiInputLabel-root': { color: '#9CA3AF' },
-              '& .MuiInputLabel-root.Mui-focused': { color: '#60A5FA' }
-            }}
           />
 
           <Button
             type="submit"
             variant="contained"
             size="large"
-            startIcon={<SaveIcon />}
+            startIcon={loading ? <CircularProgress size={20} /> : <SaveIcon />}
             disabled={loading}
-            sx={{
-              bgcolor: '#60A5FA',
-              color: '#0a0a0a',
-              fontWeight: 600,
-              '&:hover': {
-                bgcolor: '#3B82F6'
-              },
-              '&:disabled': {
-                bgcolor: '#333',
-                color: '#666'
-              }
-            }}
           >
             {loading ? 'Saving...' : 'Save Changes'}
           </Button>

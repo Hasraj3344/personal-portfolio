@@ -18,12 +18,18 @@
     "@vercel/analytics": "^1.5.0",
     "bcryptjs": "^3.0.3",
     "bootstrap": "^5.3.5",
+    "framer-motion": "^12.35.0",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.1.0",
+    "react-ga4": "^2.1.0",
+    "react-google-recaptcha-v3": "^1.11.0",
+    "react-helmet-async": "^3.0.0",
+    "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.5.0",
     "react-scripts": "5.0.1",
     "react-simple-typewriter": "^5.0.1",
+    "recharts": "^3.7.0",
     "styled-components": "^6.1.17",
     "web-vitals": "^2.1.4"
   },
@@ -31,7 +37,10 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "optimize-images": "node scripts/optimize-images.js",
+    "analyze": "ANALYZE=true npm run build",
+    "lighthouse": "lhci autorun"
   },
   "eslintConfig": {
     "extends": [
@@ -53,5 +62,14 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@lhci/cli": "^0.15.1",
+    "imagemin": "^9.0.1",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^10.0.0",
+    "imagemin-webp": "^8.0.0",
+    "sharp": "^0.34.5",
+    "webpack-bundle-analyzer": "^5.2.0"
   }
 }

@@ -14,10 +14,12 @@ const Document = styled.img`
 `
 
 const Description = styled.div`
+    position: relative;
+    z-index: 1;
     width: 100%;
     font-size: 15px;
     font-weight: 400;
-    color: ${({ theme }) => theme.text_primary + 99};
+    color: ${({ theme }) => theme.text_primary + '99'};
     margin-bottom: 10px;
     @media only screen and (max-width: 768px){
         font-size: 12px;
@@ -35,8 +37,12 @@ text-overflow: ellipsis;
 
 const Card = styled.div`
     width: 650px;
-    border-radius: 10px;
-    box-shadow: rgba(14, 54, 134, 0.15) 0px 4px 24px;
+    border-radius: ${({ theme }) => theme.borderRadius.lg};
+    background: ${({ theme }) => theme.glassBg};
+    backdrop-filter: blur(${({ theme }) => theme.blur.sm});
+    -webkit-backdrop-filter: blur(${({ theme }) => theme.blur.sm});
+    border: 1px solid ${({ theme }) => theme.primary + '40'};
+    box-shadow: ${({ theme }) => theme.shadowSm}, ${({ theme }) => theme.shadowGlow};
     padding: 12px 16px;
     justify-content: space-between;
     position: relative;
@@ -45,10 +51,31 @@ const Card = styled.div`
     flex-direction: column;
     gap: 12px;
     transition: all 0.3s ease-in-out;
-    &:hover{
-        box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
-        transform: translateY(-5px);
+
+    /* Gradient overlay on hover */
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: ${({ theme }) => theme.gradientOverlay};
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
     }
+
+    &:hover{
+        box-shadow: ${({ theme }) => theme.shadowMd}, ${({ theme }) => theme.shadowGlow};
+        transform: translateY(-5px);
+        border-color: ${({ theme }) => theme.primary + '60'};
+    }
+
+    &:hover::after {
+        opacity: 1;
+    }
+
     @media only screen and (max-width: 768px){
         padding: 10px;
         gap: 8px;
@@ -64,10 +91,11 @@ const Card = styled.div`
         -webkit-line-clamp: unset;
 
     }
-    border: 0.1px solid #60A5FA;
 `
 
 const Top = styled.div`
+    position: relative;
+    z-index: 1;
     width: 100%;
     display: flex;
     gap: 12px
@@ -118,9 +146,11 @@ const Date = styled.div`
 `
 
 const Grade = styled.div`
+    position: relative;
+    z-index: 1;
     font-size: 14px;
     font-weight: 500;
-    color: ${({ theme }) => theme.text_secondary + 99};
+    color: ${({ theme }) => theme.text_secondary + '99'};
     @media only screen and (max-width: 768px){
         font-size: 12px;
     }

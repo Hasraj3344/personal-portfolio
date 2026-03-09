@@ -2,6 +2,40 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Environment Setup
+
+This project requires environment variables for various services. Follow these steps:
+
+1. Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Fill in the required values in `.env`:
+   - `REACT_APP_GA4_MEASUREMENT_ID`: Your Google Analytics 4 Measurement ID
+   - `REACT_APP_RECAPTCHA_SITE_KEY`: Your Google reCAPTCHA v3 site key
+   - `REACT_APP_EMAILJS_SERVICE_ID`: Your EmailJS service ID
+   - `REACT_APP_EMAILJS_TEMPLATE_ID`: Your EmailJS template ID
+   - `REACT_APP_EMAILJS_PUBLIC_KEY`: Your EmailJS public key
+   - `REACT_APP_CLARITY_PROJECT_ID`: (Optional) Your Microsoft Clarity project ID
+
+### Getting API Keys
+
+- **Google Analytics 4**: Create a property at [Google Analytics](https://analytics.google.com/)
+- **reCAPTCHA v3**: Register at [Google reCAPTCHA](https://www.google.com/recaptcha/admin)
+- **EmailJS**: Sign up at [EmailJS](https://www.emailjs.com/)
+- **Microsoft Clarity**: Sign up at [Microsoft Clarity](https://clarity.microsoft.com/)
+
+## Image Optimization
+
+To optimize images for better performance:
+
+```bash
+npm run optimize-images
+```
+
+This script will create optimized WebP and compressed versions of images in `src/images/optimized/`.
+
 ## Available Scripts
 
 In the project directory, you can run:
