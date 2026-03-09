@@ -37,7 +37,6 @@ const ManageEducation = lazy(() => import('./pages/Admin/ManageEducation'));
 const ManageProjects = lazy(() => import('./pages/Admin/ManageProjects'));
 const AdminAnalytics = lazy(() => import('./pages/Admin/Analytics'));
 const ManageContacts = lazy(() => import('./pages/Admin/ManageContacts'));
-const NotFound = lazy(() => import('./pages/NotFound'));
 
 const Body = styled.div`
   background-color: ${({ theme }) => theme.bg};

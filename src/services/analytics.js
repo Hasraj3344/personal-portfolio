@@ -248,7 +248,7 @@ export const getEventsByType = async (eventType, days = 30) => {
   }
 };
 
-export default {
+const analytics = {
   initGA,
   trackPageView,
   trackEvent,
@@ -262,3 +262,5 @@ export default {
   getAnalyticsSummary,
   getEventsByType,
 };
+
+export default analytics;

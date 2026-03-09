@@ -284,7 +284,7 @@ export const springStagger = {
   }
 };
 
-export default {
+const animations = {
   fadeIn,
   slideUp,
   slideInLeft,
@@ -307,3 +307,5 @@ export default {
   glowPulse,
   springStagger,
 };
+
+export default animations;
